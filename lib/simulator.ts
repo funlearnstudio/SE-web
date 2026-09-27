@@ -308,7 +308,7 @@ function evaluateExpression(expr: string, env: Env, context: ExecContext): unkno
     return Array.isArray(collection) ? collection.includes(value) : collection && typeof collection === 'object' ? String(value) in (collection as object) : false;
   }
 
-  if (/^\[.*\]$/s.test(expr) && expr.includes(':')) {
+  if (/^\[[\s\S]*\]$/.test(expr) && expr.includes(':')) {
     const inner = expr.slice(1, -1);
     const pairs = splitComma(inner);
     const out: Record<string, unknown> = {};
@@ -321,7 +321,7 @@ function evaluateExpression(expr: string, env: Env, context: ExecContext): unkno
     return out;
   }
 
-  const memberMutation = expr.match(/^([A-Za-z_]\w*)\.(add|append)\s+(.+)$/s);
+  const memberMutation = expr.match(/^([A-Za-z_]\w*)\.(add|append)\s+([\s\S]+)$/);
   if (memberMutation) {
     const target = env[memberMutation[1]];
     const value = evaluateExpression(memberMutation[3], env, context);
@@ -330,7 +330,7 @@ function evaluateExpression(expr: string, env: Env, context: ExecContext): unkno
     throw new Error(`${memberMutation[1]}.${memberMutation[2]} requires a List or Set in this simulator.`);
   }
 
-  const moduleMatch = expr.match(/^([A-Za-z_]\w*)\.([A-Za-z_]\w*)(?:\s+(.*))?$/s);
+  const moduleMatch = expr.match(/^([A-Za-z_]\w*)\.([A-Za-z_]\w*)(?:\s+([\s\S]*))?$/);
   if (moduleMatch) {
     const [, moduleName, member, rest = ''] = moduleMatch;
     const knownModuleNames = ['math','statistics','text','collections','json','random','base64','uuid','iter','itertools','option','result','typing'];
@@ -410,7 +410,7 @@ function executeStatement(text: string, line: number, env: Env, context: ExecCon
     return { returned: false };
   }
 
-  const assign = text.match(/^([A-Za-z_]\w*)\s*=\s*(.+)$/s);
+  const assign = text.match(/^([A-Za-z_]\w*)\s*=\s*([\s\S]+)$/);
   if (assign) {
     env[assign[1]] = evaluateExpression(assign[2], env, context);
     return { returned: false };

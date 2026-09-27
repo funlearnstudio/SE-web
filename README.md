@@ -46,4 +46,3 @@ The `/playground` page is a browser simulator for core learning syntax. It does 
 ## Source alignment
 
 The content is based on the current `funlearnstudio/SE` main documentation and the VS Code `language-data.js` module list. Core release content is labeled SE 0.7.0; SE Web / Browser API content is labeled separately as 0.8 documentation.
-# SE-web
