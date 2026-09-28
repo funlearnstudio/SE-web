@@ -717,74 +717,74 @@ const independentPackages: Record<string, Omit<SeModule, 'name'>> = {
     example: "use dns\n\nsay dns.resolve4 \"example.com\""
   },
   gui: {
-    group: 'ecosystem', description: { en: 'Build a graphical interface from panels and controls.', zh: zh('Build a graphical interface from panels and controls.') },
-    members: [f('window', 'gui.window', 'Build a graphical interface from panels and controls.'), f('panel', 'gui.panel', 'Build a graphical interface from panels and controls.'), f('label', 'gui.label', 'Build a graphical interface from panels and controls.'), f('button', 'gui.button', 'Build a graphical interface from panels and controls.'), f('input', 'gui.input', 'Build a graphical interface from panels and controls.'), f('checkbox', 'gui.checkbox', 'Build a graphical interface from panels and controls.'), f('show', 'gui.show', 'Build a graphical interface from panels and controls.'), f('close', 'gui.close', 'Build a graphical interface from panels and controls.')],
-    example: "use gui\n\nui = gui.window 640 400 \"Settings\"\ngui.button ui \"save\" \"Save\" 20 20"
+    group: "ecosystem", description: { en: "Compose and show a focused graphical interface from canvas controls.", zh: zh("Compose and show a focused graphical interface from canvas controls.") },
+    members: [f("new","new","Compose and show a focused graphical interface from canvas controls."),f("rect","rect","Compose and show a focused graphical interface from canvas controls."),f("circle","circle","Compose and show a focused graphical interface from canvas controls."),f("text","text","Compose and show a focused graphical interface from canvas controls."),f("show","show","Compose and show a focused graphical interface from canvas controls."),f("save","save","Compose and show a focused graphical interface from canvas controls."),f("html","html","Compose and show a focused graphical interface from canvas controls.")],
+    example: "use gui\n\nscene = game.new 640 360 \"Demo\"\ngui.new scene"
   },
   window: {
-    group: 'ecosystem', description: { en: 'Create and control browser windows and display dimensions.', zh: zh('Create and control browser windows and display dimensions.') },
-    members: [f('create', 'window.create', 'Create and control browser windows and display dimensions.'), f('title', 'window.title', 'Create and control browser windows and display dimensions.'), f('resize', 'window.resize', 'Create and control browser windows and display dimensions.'), f('fullscreen', 'window.fullscreen', 'Create and control browser windows and display dimensions.'), f('center', 'window.center', 'Create and control browser windows and display dimensions.'), f('close', 'window.close', 'Create and control browser windows and display dimensions.'), f('width', 'window.width', 'Create and control browser windows and display dimensions.'), f('height', 'window.height', 'Create and control browser windows and display dimensions.')],
-    example: "use window\n\nw = window.create 640 400 \"Demo\"\nwindow.fullscreen w"
+    group: "ecosystem", description: { en: "Focused window operations for browser game scenes.", zh: zh("Focused window operations for browser game scenes.") },
+    members: [f("new","new","Focused window operations for browser game scenes."),f("fullscreen","fullscreen","Focused window operations for browser game scenes."),f("show","show","Focused window operations for browser game scenes.")],
+    example: "use window\n\nscene = game.new 640 360 \"Demo\"\nwindow.new scene"
   },
   canvas: {
-    group: 'ecosystem', description: { en: 'Canvas drawing, sizing, clearing, and image export.', zh: zh('Canvas drawing, sizing, clearing, and image export.') },
-    members: [f('size', 'canvas.size', 'Canvas drawing, sizing, clearing, and image export.'), f('clear', 'canvas.clear', 'Canvas drawing, sizing, clearing, and image export.'), f('rect', 'canvas.rect', 'Canvas drawing, sizing, clearing, and image export.'), f('circle', 'canvas.circle', 'Canvas drawing, sizing, clearing, and image export.'), f('line', 'canvas.line', 'Canvas drawing, sizing, clearing, and image export.'), f('text', 'canvas.text', 'Canvas drawing, sizing, clearing, and image export.'), f('image', 'canvas.image', 'Canvas drawing, sizing, clearing, and image export.'), f('save', 'canvas.save', 'Canvas drawing, sizing, clearing, and image export.')],
-    example: "use canvas\n\nc = canvas.new 320 200\ncanvas.circle c 80 80 30 \"orange\""
+    group: "ecosystem", description: { en: "Focused canvas operations for browser game scenes.", zh: zh("Focused canvas operations for browser game scenes.") },
+    members: [f("background","background","Focused canvas operations for browser game scenes."),f("clear","clear","Focused canvas operations for browser game scenes."),f("rect","rect","Focused canvas operations for browser game scenes."),f("circle","circle","Focused canvas operations for browser game scenes."),f("line","line","Focused canvas operations for browser game scenes."),f("text","text","Focused canvas operations for browser game scenes.")],
+    example: "use canvas\n\nscene = game.new 640 360 \"Demo\"\ncanvas.background scene"
   },
   input: {
-    group: 'ecosystem', description: { en: 'Keyboard and pointer state helpers and event registration.', zh: zh('Keyboard and pointer state helpers and event registration.') },
-    members: [f('key_down', 'input.key_down', 'Keyboard and pointer state helpers and event registration.'), f('key_pressed', 'input.key_pressed', 'Keyboard and pointer state helpers and event registration.'), f('mouse_position', 'input.mouse_position', 'Keyboard and pointer state helpers and event registration.'), f('mouse_down', 'input.mouse_down', 'Keyboard and pointer state helpers and event registration.'), f('on_key', 'input.on_key', 'Keyboard and pointer state helpers and event registration.'), f('on_click', 'input.on_click', 'Keyboard and pointer state helpers and event registration.')],
-    example: "use input\n\nsay input.key_pressed scene \"Space\""
+    group: "ecosystem", description: { en: "Focused input operations for browser game scenes.", zh: zh("Focused input operations for browser game scenes.") },
+    members: [f("key_move","key_move","Focused input operations for browser game scenes."),f("follow_mouse","follow_mouse","Focused input operations for browser game scenes.")],
+    example: "use input\n\nscene = game.new 640 360 \"Demo\"\ninput.key_move scene"
   },
   sprite: {
-    group: 'ecosystem', description: { en: 'Sprite loading, drawing, transforms, and animation.', zh: zh('Sprite loading, drawing, transforms, and animation.') },
-    members: [f('load', 'sprite.load', 'Sprite loading, drawing, transforms, and animation.'), f('draw', 'sprite.draw', 'Sprite loading, drawing, transforms, and animation.'), f('scale', 'sprite.scale', 'Sprite loading, drawing, transforms, and animation.'), f('rotate', 'sprite.rotate', 'Sprite loading, drawing, transforms, and animation.'), f('flip', 'sprite.flip', 'Sprite loading, drawing, transforms, and animation.'), f('animate', 'sprite.animate', 'Sprite loading, drawing, transforms, and animation.'), f('remove', 'sprite.remove', 'Sprite loading, drawing, transforms, and animation.'), f('bounds', 'sprite.bounds', 'Sprite loading, drawing, transforms, and animation.')],
-    example: "use sprite\n\nsprite.load scene \"hero.png\" \"hero\""
+    group: "ecosystem", description: { en: "Focused sprite operations for browser game scenes.", zh: zh("Focused sprite operations for browser game scenes.") },
+    members: [f("image","image","Focused sprite operations for browser game scenes."),f("sprite","sprite","Focused sprite operations for browser game scenes."),f("sprite_color","sprite_color","Focused sprite operations for browser game scenes."),f("position","position","Focused sprite operations for browser game scenes."),f("move","move","Focused sprite operations for browser game scenes."),f("velocity","velocity","Focused sprite operations for browser game scenes."),f("animate","animate","Focused sprite operations for browser game scenes.")],
+    example: "use sprite\n\nscene = game.new 640 360 \"Demo\"\nsprite.image scene"
   },
   physics: {
-    group: 'ecosystem', description: { en: 'Basic body integration, forces, gravity, and collision math.', zh: zh('Basic body integration, forces, gravity, and collision math.') },
-    members: [f('body', 'physics.body', 'Basic body integration, forces, gravity, and collision math.'), f('velocity', 'physics.velocity', 'Basic body integration, forces, gravity, and collision math.'), f('gravity', 'physics.gravity', 'Basic body integration, forces, gravity, and collision math.'), f('force', 'physics.force', 'Basic body integration, forces, gravity, and collision math.'), f('integrate', 'physics.integrate', 'Basic body integration, forces, gravity, and collision math.'), f('collide', 'physics.collide', 'Basic body integration, forces, gravity, and collision math.'), f('distance', 'physics.distance', 'Basic body integration, forces, gravity, and collision math.'), f('clamp', 'physics.clamp', 'Basic body integration, forces, gravity, and collision math.')],
-    example: "use physics\n\nbody = physics.body 0 0 2 3\nphysics.integrate body 0.016"
+    group: "ecosystem", description: { en: "Focused physics operations for browser game scenes.", zh: zh("Focused physics operations for browser game scenes.") },
+    members: [f("velocity","velocity","Focused physics operations for browser game scenes."),f("rect_hit","rect_hit","Focused physics operations for browser game scenes."),f("circle_hit","circle_hit","Focused physics operations for browser game scenes."),f("distance","distance","Focused physics operations for browser game scenes."),f("vector","vector","Focused physics operations for browser game scenes."),f("particles","particles","Focused physics operations for browser game scenes."),f("camera","camera","Focused physics operations for browser game scenes.")],
+    example: "use physics\n\nscene = game.new 640 360 \"Demo\"\nphysics.velocity scene"
   },
   sound: {
-    group: 'ecosystem', description: { en: 'Sound synthesis and playback controls.', zh: zh('Sound synthesis and playback controls.') },
-    members: [f('tone', 'sound.tone', 'Sound synthesis and playback controls.'), f('beep', 'sound.beep', 'Sound synthesis and playback controls.'), f('noise', 'sound.noise', 'Sound synthesis and playback controls.'), f('volume', 'sound.volume', 'Sound synthesis and playback controls.'), f('play', 'sound.play', 'Sound synthesis and playback controls.'), f('stop', 'sound.stop', 'Sound synthesis and playback controls.'), f('fade', 'sound.fade', 'Sound synthesis and playback controls.')],
-    example: "use sound\n\nsound.tone scene 440 0.2"
+    group: "ecosystem", description: { en: "Focused sound operations for browser game scenes.", zh: zh("Focused sound operations for browser game scenes.") },
+    members: [f("sound","sound","Focused sound operations for browser game scenes."),f("play","play","Focused sound operations for browser game scenes."),f("stop","stop","Focused sound operations for browser game scenes.")],
+    example: "use sound\n\nscene = game.new 640 360 \"Demo\"\nsound.sound scene"
   },
   keyboard: {
-    group: 'ecosystem', description: { en: 'Keyboard state queries and callbacks.', zh: zh('Keyboard state queries and callbacks.') },
-    members: [f('pressed', 'keyboard.pressed', 'Keyboard state queries and callbacks.'), f('just_pressed', 'keyboard.just_pressed', 'Keyboard state queries and callbacks.'), f('just_released', 'keyboard.just_released', 'Keyboard state queries and callbacks.'), f('key_code', 'keyboard.key_code', 'Keyboard state queries and callbacks.'), f('on_press', 'keyboard.on_press', 'Keyboard state queries and callbacks.'), f('on_release', 'keyboard.on_release', 'Keyboard state queries and callbacks.')],
-    example: "use keyboard\n\nsay keyboard.pressed scene \"ArrowLeft\""
+    group: "ecosystem", description: { en: "Focused keyboard operations for browser game scenes.", zh: zh("Focused keyboard operations for browser game scenes.") },
+    members: [f("key_move","key_move","Focused keyboard operations for browser game scenes.")],
+    example: "use keyboard\n\nscene = game.new 640 360 \"Demo\"\nkeyboard.key_move scene"
   },
   mouse: {
-    group: 'ecosystem', description: { en: 'Pointer position, buttons, wheel, and callbacks.', zh: zh('Pointer position, buttons, wheel, and callbacks.') },
-    members: [f('position', 'mouse.position', 'Pointer position, buttons, wheel, and callbacks.'), f('button_down', 'mouse.button_down', 'Pointer position, buttons, wheel, and callbacks.'), f('just_clicked', 'mouse.just_clicked', 'Pointer position, buttons, wheel, and callbacks.'), f('wheel', 'mouse.wheel', 'Pointer position, buttons, wheel, and callbacks.'), f('on_move', 'mouse.on_move', 'Pointer position, buttons, wheel, and callbacks.'), f('on_click', 'mouse.on_click', 'Pointer position, buttons, wheel, and callbacks.')],
-    example: "use mouse\n\nsay mouse.position scene"
+    group: "ecosystem", description: { en: "Focused mouse operations for browser game scenes.", zh: zh("Focused mouse operations for browser game scenes.") },
+    members: [f("follow_mouse","follow_mouse","Focused mouse operations for browser game scenes."),f("camera","camera","Focused mouse operations for browser game scenes.")],
+    example: "use mouse\n\nscene = game.new 640 360 \"Demo\"\nmouse.follow_mouse scene"
   },
   animation: {
-    group: 'ecosystem', description: { en: 'Tween and sequence helpers with easing and cancellation.', zh: zh('Tween and sequence helpers with easing and cancellation.') },
-    members: [f('tween', 'animation.tween', 'Tween and sequence helpers with easing and cancellation.'), f('sequence', 'animation.sequence', 'Tween and sequence helpers with easing and cancellation.'), f('repeat', 'animation.repeat', 'Tween and sequence helpers with easing and cancellation.'), f('ease', 'animation.ease', 'Tween and sequence helpers with easing and cancellation.'), f('cancel', 'animation.cancel', 'Tween and sequence helpers with easing and cancellation.'), f('is_running', 'animation.is_running', 'Tween and sequence helpers with easing and cancellation.')],
-    example: "use animation\n\nanimation.tween scene \"x\" 0 300 0.5 \"ease_out\""
+    group: "ecosystem", description: { en: "Focused animation operations for browser game scenes.", zh: zh("Focused animation operations for browser game scenes.") },
+    members: [f("animate","animate","Focused animation operations for browser game scenes."),f("move","move","Focused animation operations for browser game scenes."),f("velocity","velocity","Focused animation operations for browser game scenes.")],
+    example: "use animation\n\nscene = game.new 640 360 \"Demo\"\nanimation.animate scene"
   },
   scene: {
-    group: 'ecosystem', description: { en: 'Scene creation, composition, and transitions.', zh: zh('Scene creation, composition, and transitions.') },
-    members: [f('new', 'scene.new', 'Scene creation, composition, and transitions.'), f('background', 'scene.background', 'Scene creation, composition, and transitions.'), f('clear', 'scene.clear', 'Scene creation, composition, and transitions.'), f('add', 'scene.add', 'Scene creation, composition, and transitions.'), f('remove', 'scene.remove', 'Scene creation, composition, and transitions.'), f('transition', 'scene.transition', 'Scene creation, composition, and transitions.'), f('save', 'scene.save', 'Scene creation, composition, and transitions.'), f('load', 'scene.load', 'Scene creation, composition, and transitions.')],
-    example: "use scene\n\nlevel = scene.new 640 360 \"Level 1\"\nscene.background level \"#203040\""
+    group: "ecosystem", description: { en: "Focused scene operations for browser game scenes.", zh: zh("Focused scene operations for browser game scenes.") },
+    members: [f("new","new","Focused scene operations for browser game scenes."),f("background","background","Focused scene operations for browser game scenes."),f("clear","clear","Focused scene operations for browser game scenes."),f("html","html","Focused scene operations for browser game scenes."),f("save","save","Focused scene operations for browser game scenes."),f("show","show","Focused scene operations for browser game scenes.")],
+    example: "use scene\n\nscene = game.new 640 360 \"Demo\"\nscene.new scene"
   },
   collision: {
-    group: 'ecosystem', description: { en: 'Point, rectangle, and circle collision tests.', zh: zh('Point, rectangle, and circle collision tests.') },
-    members: [f('point_rect', 'collision.point_rect', 'Point, rectangle, and circle collision tests.'), f('rect_rect', 'collision.rect_rect', 'Point, rectangle, and circle collision tests.'), f('circle_circle', 'collision.circle_circle', 'Point, rectangle, and circle collision tests.'), f('circle_rect', 'collision.circle_rect', 'Point, rectangle, and circle collision tests.'), f('overlap', 'collision.overlap', 'Point, rectangle, and circle collision tests.'), f('sweep', 'collision.sweep', 'Point, rectangle, and circle collision tests.')],
-    example: "use collision\n\nsay collision.rect_rect 0 0 20 20 15 15 20 20"
+    group: "ecosystem", description: { en: "Focused collision operations for browser game scenes.", zh: zh("Focused collision operations for browser game scenes.") },
+    members: [f("rect_hit","rect_hit","Focused collision operations for browser game scenes."),f("circle_hit","circle_hit","Focused collision operations for browser game scenes."),f("distance","distance","Focused collision operations for browser game scenes."),f("vector","vector","Focused collision operations for browser game scenes.")],
+    example: "use collision\n\nscene = game.new 640 360 \"Demo\"\ncollision.rect_hit scene"
   },
   image: {
-    group: 'ecosystem', description: { en: 'Image loading, transforms, crop, dimensions, and export.', zh: zh('Image loading, transforms, crop, dimensions, and export.') },
-    members: [f('load', 'image.load', 'Image loading, transforms, crop, dimensions, and export.'), f('draw', 'image.draw', 'Image loading, transforms, crop, dimensions, and export.'), f('crop', 'image.crop', 'Image loading, transforms, crop, dimensions, and export.'), f('resize', 'image.resize', 'Image loading, transforms, crop, dimensions, and export.'), f('flip', 'image.flip', 'Image loading, transforms, crop, dimensions, and export.'), f('pixel', 'image.pixel', 'Image loading, transforms, crop, dimensions, and export.'), f('dimensions', 'image.dimensions', 'Image loading, transforms, crop, dimensions, and export.'), f('save', 'image.save', 'Image loading, transforms, crop, dimensions, and export.')],
-    example: "use image\n\npic = image.load \"icon.png\"\nsay image.dimensions pic"
+    group: "ecosystem", description: { en: "Focused image operations for browser game scenes.", zh: zh("Focused image operations for browser game scenes.") },
+    members: [f("image","image","Focused image operations for browser game scenes."),f("sprite","sprite","Focused image operations for browser game scenes.")],
+    example: "use image\n\nscene = game.new 640 360 \"Demo\"\nimage.image scene"
   },
   audio: {
-    group: 'ecosystem', description: { en: 'Audio loading and playback controls.', zh: zh('Audio loading and playback controls.') },
-    members: [f('load', 'audio.load', 'Audio loading and playback controls.'), f('play', 'audio.play', 'Audio loading and playback controls.'), f('pause', 'audio.pause', 'Audio loading and playback controls.'), f('stop', 'audio.stop', 'Audio loading and playback controls.'), f('volume', 'audio.volume', 'Audio loading and playback controls.'), f('loop', 'audio.loop', 'Audio loading and playback controls.'), f('duration', 'audio.duration', 'Audio loading and playback controls.'), f('position', 'audio.position', 'Audio loading and playback controls.')],
-    example: "use audio\n\ntrack = audio.load \"theme.ogg\"\naudio.play track"
+    group: "ecosystem", description: { en: "Focused audio operations for browser game scenes.", zh: zh("Focused audio operations for browser game scenes.") },
+    members: [f("sound","sound","Focused audio operations for browser game scenes."),f("play","play","Focused audio operations for browser game scenes."),f("stop","stop","Focused audio operations for browser game scenes.")],
+    example: "use audio\n\nscene = game.new 640 360 \"Demo\"\naudio.sound scene"
   }
 };
 Object.assign(base, independentPackages);
