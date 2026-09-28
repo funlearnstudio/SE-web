@@ -658,7 +658,7 @@ const independentPackages: Record<string, Omit<SeModule, 'name'>> = {
   },
   hashlib: {
     group: 'safety', description: { en: 'Cryptographic digests, HMAC, file hashing, and comparisons.', zh: zh('Cryptographic digests, HMAC, file hashing, and comparisons.') },
-    members: [f("sha256","sha256 args...","SHA-256 hashing, file digests, constant-time comparison, and hex encoding."),f("file_sha256","file_sha256 args...","SHA-256 hashing, file digests, constant-time comparison, and hex encoding."),f("compare","compare args...","SHA-256 hashing, file digests, constant-time comparison, and hex encoding."),f("to_hex","to_hex args...","SHA-256 hashing, file digests, constant-time comparison, and hex encoding.")],
+    members: [f("sha256","sha256 args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("file_sha256","file_sha256 args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("sha512","sha512 args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("file_sha512","file_sha512 args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("digest","digest args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("file_digest","file_digest args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("hmac_sha256","hmac_sha256 args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("compare","compare args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("to_hex","to_hex args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison.")],
     example: "use hashlib\n\nsay hashlib.sha256 \"hello\""
   },
   argparse: {
