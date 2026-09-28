@@ -140,7 +140,51 @@ function zh(en: string): string {
     .replace(/^Connect /, '連線 ')
     .replace(/^Download /, '下載 ')
     .replace(/^Compile /, '編譯 ')
-    .replace(/^Evaluate /, '執行並取得結果 ');
+    .replace(/^Percent-encode /, "將以下內容進行 URL 百分比編碼：")
+    .replace(/^Decode /, "解碼")
+    .replace(/^Encode /, "編碼")
+    .replace(/^Sum /, "計算總和：")
+    .replace(/^Mean /, "計算平均數：")
+    .replace(/^Transpose /, "轉置")
+    .replace(/^Multiply /, "相乘")
+    .replace(/^Dot /, "計算內積：")
+    .replace(/^Factorial /, "計算階乘：")
+    .replace(/^Combination /, "計算組合數：")
+    .replace(/^Convert /, "轉換")
+    .replace(/^Extract /, "擷取")
+    .replace(/^Count /, "計算")
+    .replace(/^Create /, "建立")
+    .replace(/^Read /, "讀取")
+    .replace(/^Write /, "寫入")
+    .replace(/^Parse /, "解析")
+    .replace(/^Serialize /, "序列化")
+    .replace(/^Compute /, "計算")
+    .replace(/^Sign /, "簽署")
+    .replace(/^Verify /, "驗證")
+    .replace(/^Compose /, "建立")
+    .replace(/^Send /, "寄送")
+    .replace(/^Run /, "執行")
+    .replace(/^Exchange /, "交換")
+    .replace(/^Request /, "向端點請求")
+    .replace(/^Fit /, "擬合")
+    .replace(/^Predict /, "預測")
+    .replace(/^Return /, "回傳")
+    .replace(/^Start /, "啟動")
+    .replace(/^Stop /, "停止")
+    .replace(/^Add /, "加入")
+    .replace(/^Render /, "渲染")
+    .replace(/^Detect /, "偵測")
+    .replace(/^Save /, "儲存")
+    .replace(/^Generate /, "產生")
+    .replace(/^Escape /, "跳脫")
+    .replace(/^Check /, "檢查")
+    .replace(/^Set /, "設定")
+    .replace(/^List /, "列出")
+    .replace(/^Download /, "下載")
+    .replace(/^Upload /, "上傳")
+    .replace(/^Enable /, "啟用")
+    .replace(/^Test /, "測試")
+    replace(/^Evaluate /, '執行並取得結果 ');
   return s;
 }
 
@@ -306,7 +350,7 @@ const base: Record<string, Omit<SeModule, 'name'>> = {
   },
   game: {
     group: 'ecosystem', description: { en: 'Small canvas-game scene builder.', zh: '輕量 Canvas 遊戲場景 builder。' },
-    members: [f('new','new width height title','Create a game scene and return its id.'),f('background','background scene color','Set scene background.'),f('clear','clear scene','Clear draw commands.'),f('rect','rect scene x y width height color fill','Draw a rectangle.'),f('circle','circle scene x y radius color fill','Draw a circle.'),f('line','line scene x1 y1 x2 y2 color width','Draw a line.'),f('text','text scene text x y size color','Draw text.'),f('script','script scene javascript','Append browser JavaScript to a scene.'),f('html','html scene','Return generated scene HTML.'),f('save','save scene path','Save scene HTML. Fallible.'),f('show','show scene','Open scene in a browser. Fallible.')],
+    members: [f("new","new width height title","Create a game scene and return its id."),f("background","background scene color","Set scene background."),f("clear","clear scene","Clear draw commands."),f("rect","rect scene x y width height color fill","Draw a rectangle."),f("circle","circle scene x y radius color fill","Draw a circle."),f("line","line scene x1 y1 x2 y2 color width","Draw a line."),f("text","text scene text x y size color","Draw text."),f("script","script scene javascript","Append browser JavaScript to a scene."),f("html","html scene","Return generated scene HTML."),f("save","save scene path","Save scene HTML. Fallible."),f("show","show scene","Open scene in a browser. Fallible."),f("image","image scene url x y width height","Draw a browser image."),f("sprite","sprite scene name url x y width height","Add an image sprite."),f("sprite_color","sprite_color scene name x y width height color","Add a colored sprite."),f("position","position scene name x y","Set a sprite position."),f("move","move scene name dx dy","Move a sprite."),f("velocity","velocity scene name vx vy","Set sprite velocity."),f("animate","animate scene fps","Start the sprite animation loop."),f("key_move","key_move scene name key dx dy","Move a sprite when a key is pressed."),f("follow_mouse","follow_mouse scene name","Follow the mouse with a sprite."),f("sound","sound scene name url","Register a browser sound."),f("play","play scene name loop volume","Play a registered sound."),f("stop","stop scene name","Stop a registered sound."),f("fullscreen","fullscreen scene","Enable double-click fullscreen."),f("camera","camera scene x y","Set the scene camera offset."),f("particles","particles scene x y count color speed","Emit particles."),f("rect_hit","rect_hit ax ay aw ah bx by bw bh","Test rectangle overlap."),f("circle_hit","circle_hit ax ay ar bx by br","Test circle overlap."),f("distance","distance x1 y1 x2 y2","Distance between two points."),f("vector","vector x y","Create a 2D vector List.")],
     example: 'use game\n\nscene = game.new 640 360 "SE Game"\ngame.background scene "#111"\ngame.circle scene 320 180 50 "#8b7cff" true\ntry game.show scene'
   },
   statistics: {
@@ -428,6 +472,191 @@ const base: Record<string, Omit<SeModule, 'name'>> = {
     group: 'safety', description: { en: 'Runtime type inspection helpers.', zh: 'Runtime 型別檢查工具。' },
     members: [f('type_of','type_of value','Return the runtime SE type name.'),f('is','is value type_name','Check the runtime type name.'),f('cast','cast value type_name','Assert a runtime type and return the value.')],
     example: 'use typing\n\nvalue = 42\nsay typing.type_of value\nsay typing.is value "Int"\nsay typing.cast value "Int"'
+  },
+  url: {
+    group: "data", description: { en: "URL percent encoding and query strings.", zh: "URL 百分比編碼、解碼與 query string 工具。" },
+    members: [f("encode","encode text","Percent-encode URL text."),f("decode","decode text","Decode percent-encoded text. Fallible."),f("query","query map","Build a URL query string from a Map."),f("parse_query","parse_query text","Parse a query string into a Map. Fallible.")],
+    example: "use url\\n\\nencoded = url.encode \"SE language\"\\nsay encoded\\nsay try url.decode encoded"
+  },
+  encoding: {
+    group: "data", description: { en: "Hexadecimal encoding and UTF-8 validation.", zh: "十六進位編碼與 UTF-8 驗證工具。" },
+    members: [f("hex","hex text","Encode text as hexadecimal."),f("unhex","unhex text","Decode hexadecimal text. Fallible."),f("utf8_valid","utf8_valid text","Check UTF-8 validity.")],
+    example: "use encoding\\n\\nsay encoding.hex \"SE\"\\nsay try encoding.unhex \"5345\""
+  },
+  dotenv: {
+    group: "core", description: { en: "Parse simple KEY=VALUE configuration.", zh: "讀取及查詢 KEY=VALUE 設定。" },
+    members: [f("parse","parse text","Parse KEY=VALUE lines into a Map. Fallible."),f("get","get config key","Read a required key from a configuration Map. Fallible.")],
+    example: "use dotenv\\n\\nconfig = try dotenv.parse \"MODE=dev\\\\nPORT=3000\"\\nsay try dotenv.get config \"MODE\""
+  },
+  array: {
+    group: "data", description: { en: "Numeric List statistics and slicing.", zh: "數值 List 的總和、平均數與切片。" },
+    members: [f("sum","sum values","Sum a numeric List."),f("mean","mean values","Mean of a numeric List. Fallible."),f("slice","slice values start end","Slice a List with checked bounds. Fallible.")],
+    example: "use array\\n\\nnums = [1, 2, 3, 4]\\nsay array.sum nums\\nsay try array.mean nums"
+  },
+  matrix: {
+    group: "math", description: { en: "Matrix multiplication, transposition, and dot products.", zh: "矩陣轉置、乘法與向量內積。" },
+    members: [f("transpose","transpose rows","Transpose a matrix. Fallible."),f("multiply","multiply left right","Multiply two matrices. Fallible."),f("dot","dot left right","Dot product of equal-length vectors. Fallible.")],
+    example: "use matrix\\n\\nrows = [[1, 2], [3, 4]]\\nsay try matrix.transpose rows"
+  },
+  probability: {
+    group: "math", description: { en: "Factorial and combination counts.", zh: "階乘與組合數計算。" },
+    members: [f("factorial","factorial n","Factorial for 0 to 20. Fallible."),f("choose","choose n k","Combination count with bounded inputs. Fallible.")],
+    example: "use probability\\n\\nsay try probability.factorial 5\\nsay try probability.choose 5 2"
+  },
+  fraction: {
+    group: "math", description: { en: "Reduced fractions and decimal conversion.", zh: "建立約分分數並轉換成小數。" },
+    members: [f("make","make numerator denominator","Create a reduced fraction List. Fallible."),f("decimal","decimal fraction","Convert a fraction List to a number. Fallible.")],
+    example: "use fraction\\n\\npart = try fraction.make 3 6\\nsay part\\nsay try fraction.decimal part"
+  },
+  complex: {
+    group: "math", description: { en: "Complex numbers represented as [real, imaginary].", zh: "複數建立、加法、乘法與模長計算。" },
+    members: [f("make","make real imaginary","Create a complex number List."),f("add","add left right","Add complex numbers. Fallible."),f("multiply","multiply left right","Multiply complex numbers. Fallible."),f("magnitude","magnitude value","Magnitude of a complex number. Fallible.")],
+    example: "use complex\\n\\na = complex.make 2 3\\nb = complex.make 1 4\\nsay try complex.add a b"
+  },
+  calculus: {
+    group: "math", description: { en: "One-variable polynomial evaluation, derivative, and definite integral.", zh: "多項式求值、導數與定積分。" },
+    members: [f("polynomial","polynomial coefficients x","Evaluate a polynomial with ascending coefficients."),f("derivative","derivative coefficients x","Evaluate its derivative."),f("integral","integral coefficients start end","Definite integral of a polynomial.")],
+    example: "use calculus\\n\\ncoefficients = [1, 2, 3]\\nsay calculus.polynomial coefficients 2\\nsay calculus.derivative coefficients 2"
+  },
+  units: {
+    group: "math", description: { en: "Length, time, mass, and temperature conversions.", zh: "長度、時間、質量與溫度單位換算。" },
+    members: [f("convert","convert value from_unit to_unit","Convert compatible length, time, or mass units. Fallible."),f("celsius_to_fahrenheit","celsius_to_fahrenheit value","Convert Celsius to Fahrenheit."),f("fahrenheit_to_celsius","fahrenheit_to_celsius value","Convert Fahrenheit to Celsius.")],
+    example: "use units\\n\\nsay try units.convert 1 \"km\" \"m\"\\nsay units.celsius_to_fahrenheit 0"
+  },
+  table: {
+    group: "data", description: { en: "Read and project columns from Map rows.", zh: "讀取 Map 列資料並選取欄位。" },
+    members: [f("column","column rows name","Extract a column from Map rows. Fallible."),f("row_count","row_count rows","Count table rows."),f("select","select rows columns","Project table columns. Fallible.")],
+    example: "use table\\n\\nrows = [[\"name\": \"Amy\", \"score\": 92], [\"name\": \"Ben\", \"score\": 85]]\\nsay try table.column rows \"score\""
+  },
+  cookie: {
+    group: "network", description: { en: "Parse Cookie headers and create Set-Cookie values.", zh: "解析 Cookie 標頭並建立 Set-Cookie 值。" },
+    members: [f("parse","parse header","Parse a Cookie header into a Map."),f("set","set name value","Create a Set-Cookie header. Fallible.")],
+    example: "use cookie\\n\\nvalues = cookie.parse \"theme=dark; lang=zh\"\\nsay values[\"theme\"]\\nsay try cookie.set \"theme\" \"dark\""
+  },
+  cors: {
+    group: "network", description: { en: "Construct CORS response headers.", zh: "建立 CORS 回應標頭。" },
+    members: [f("allow_origin","allow_origin origin","Create CORS origin headers. Fallible."),f("preflight","preflight origin methods","Create CORS preflight headers. Fallible.")],
+    example: "use cors\\n\\nheaders = try cors.allow_origin \"https://example.com\"\\nsay headers"
+  },
+  template: {
+    group: "data", description: { en: "HTML-escaped {{key}} template rendering.", zh: "HTML 跳脫與 {{key}} 樣板渲染。" },
+    members: [f("escape","escape text","Escape HTML text."),f("render","render source values","Render escaped {{key}} placeholders. Fallible.")],
+    example: "use template\\n\\npage = try template.render \"Hello {{name}}\" [\"name\": \"SE\"]\\nsay page"
+  },
+  static: {
+    group: "io", description: { en: "Read rooted static files and detect MIME types.", zh: "讀取指定根目錄內的靜態檔案並判斷 MIME 類型。" },
+    members: [f("mime","mime filename","Detect MIME type from an extension."),f("read","read root filename","Read a file inside a root directory. Fallible.")],
+    example: "use static\\n\\nsay static.mime \"index.html\""
+  },
+  upload: {
+    group: "io", description: { en: "Save data within an existing root directory.", zh: "將上傳內容存入指定根目錄。" },
+    members: [f("save","save root filename body","Save a file within an existing root directory. Fallible.")],
+    example: "use upload\\n\\ntry upload.save \"uploads\" \"note.txt\" \"Hello SE\""
+  },
+  tilemap: {
+    group: "ecosystem", description: { en: "Parse and inspect text tile maps.", zh: "解析文字 tile map 並讀取格子內容。" },
+    members: [f("parse","parse text","Parse a rectangular text tilemap. Fallible."),f("at","at map x y","Read a tile at coordinates. Fallible."),f("size","size map","Return tilemap dimensions.")],
+    example: "use tilemap\\n\\nworld = try tilemap.parse \"###\\\\n#.#\\\\n###\"\\nsay tilemap.size world\\nsay try tilemap.at world 1 1"
+  },
+  toml: {
+    group: "data", description: { en: "TOML parsing through Python 3.11+.", zh: "透過 Python 解析 TOML。" },
+    members: [f("parse","parse text","Parse TOML using Python 3.11+. Fallible.")],
+    example: "use toml\\n\\nsettings = try toml.parse \"name = \\\\\\\"SE\\\\\\\"\"\\nsay settings[\"name\"]"
+  },
+  yaml: {
+    group: "data", description: { en: "YAML parsing and serialization (requires PyYAML).", zh: "解析與序列化 YAML（需要 PyYAML）。" },
+    members: [f("parse","parse text","Parse YAML using PyYAML. Fallible."),f("stringify","stringify value","Serialize YAML using PyYAML. Fallible.")],
+    example: "use yaml\\n\\nsettings = try yaml.parse \"name: SE\"\\nsay settings[\"name\"]\\nsay try yaml.stringify settings"
+  },
+  xml: {
+    group: "data", description: { en: "XML parsing and escaping through Python.", zh: "透過 Python 解析 XML 並跳脫文字。" },
+    members: [f("parse","parse text","Parse XML using Python. Fallible."),f("escape","escape text","Escape XML text. Fallible.")],
+    example: "use xml\\n\\nvalue = try xml.parse \"<name>SE</name>\"\\nsay try xml.escape \"SE & Web\""
+  },
+  markdown: {
+    group: "data", description: { en: "CommonMark rendering (requires markdown-it-py).", zh: "使用 CommonMark 渲染 Markdown（需要 markdown-it-py）。" },
+    members: [f("render","render text","Render Markdown using markdown-it-py. Fallible.")],
+    example: "use markdown\\n\\nhtml = try markdown.render \"# Hello SE\"\\nsay html"
+  },
+  crypto: {
+    group: "safety", description: { en: "SHA-256, HMAC, secure randomness, and constant-time comparison.", zh: "SHA-256、HMAC、安全亂數與固定時間比較。" },
+    members: [f("sha256","sha256 text","Compute a SHA-256 hex digest. Fallible."),f("hmac_sha256","hmac_sha256 key text","Compute an HMAC-SHA256 hex digest. Fallible."),f("random_hex","random_hex byte_count","Generate cryptographically random hex. Fallible."),f("constant_time_equal","constant_time_equal left right","Compare text in constant time. Fallible.")],
+    example: "use crypto\\n\\nsay try crypto.sha256 \"SE\"\\nsay try crypto.random_hex 8"
+  },
+  jwt: {
+    group: "safety", description: { en: "HS256 signing and verification.", zh: "建立與驗證 HS256 JSON claims。" },
+    members: [f("sign","sign claims secret","Sign HS256 JSON claims. Fallible."),f("verify","verify token secret","Verify an HS256 token and return claims. Fallible.")],
+    example: "use jwt\\n\\nclaims = [\"sub\": \"student\"]\\ntoken = try jwt.sign claims \"local-demo-secret\"\\nsay try jwt.verify token \"local-demo-secret\""
+  },
+  session: {
+    group: "safety", description: { en: "Signed, stateless session claims using HS256.", zh: "使用 HS256 編碼與解碼簽章 session claims。" },
+    members: [f("encode","encode claims secret","Encode signed session claims. Fallible."),f("decode","decode token secret","Decode signed session claims. Fallible.")],
+    example: "use session\\n\\nclaims = [\"user\": \"student\"]\\ntoken = try session.encode claims \"local-demo-secret\"\\nsay try session.decode token \"local-demo-secret\""
+  },
+  auth: {
+    group: "safety", description: { en: "PBKDF2 password hashing and verification.", zh: "使用 PBKDF2 雜湊與驗證密碼。" },
+    members: [f("hash_password","hash_password password","Create a PBKDF2 password hash. Fallible."),f("verify_password","verify_password password encoded_hash","Verify a password hash. Fallible.")],
+    example: "use auth\\n\\nhashed = try auth.hash_password \"example-password\"\\nsay try auth.verify_password \"example-password\" hashed"
+  },
+  email: {
+    group: "network", description: { en: "Compose and parse email messages.", zh: "建立與解析 email 訊息。" },
+    members: [f("compose","compose sender recipient subject body","Compose an email message. Fallible."),f("parse","parse message","Parse an email message. Fallible.")],
+    example: "use email\\n\\nmessage = try email.compose \"from@example.com\" \"to@example.com\" \"Hello\" \"Message body\"\\nsay message"
+  },
+  smtp: {
+    group: "network", description: { en: "Send mail with SMTP over TLS.", zh: "透過 TLS 使用 SMTP 寄信。" },
+    members: [f("send","send host port username password recipient message","Send email over SMTP with TLS. Fallible.")],
+    example: "use smtp\\n\\n# Provide mail server credentials before running.\\ntry smtp.send \"smtp.example.com\" 465 \"user\" \"password\" \"to@example.com\" \"message\""
+  },
+  imap: {
+    group: "network", description: { en: "Read mail subjects with IMAP over TLS.", zh: "透過 TLS 讀取 IMAP 郵件主旨。" },
+    members: [f("subjects","subjects host username password mailbox limit","Read IMAP message subjects over TLS. Fallible.")],
+    example: "use imap\\n\\n# Provide mail server credentials before running.\\nsay try imap.subjects \"imap.example.com\" \"user\" \"password\" \"INBOX\" 10"
+  },
+  ftp: {
+    group: "network", description: { en: "List, download, and upload files through FTPS.", zh: "透過 FTPS 列出、下載與上傳檔案。" },
+    members: [f("list","list host username password directory","List files over FTPS. Fallible."),f("download","download host username password filename","Download a file over FTPS. Fallible."),f("upload","upload host username password filename body","Upload a file over FTPS. Fallible.")],
+    example: "use ftp\\n\\n# Provide FTPS credentials before running.\\nsay try ftp.list \"ftp.example.com\" \"user\" \"password\" \"/\""
+  },
+  ssh: {
+    group: "network", description: { en: "Run a remote command using Paramiko and known_hosts.", zh: "透過 Paramiko 與 known_hosts 執行遠端命令。" },
+    members: [f("run","run host username command","Run an SSH command using known_hosts. Fallible.")],
+    example: "use ssh\\n\\n# Requires a trusted host entry in known_hosts.\\nsay try ssh.run \"server.example.com\" \"user\" \"whoami\""
+  },
+  websocket: {
+    group: "network", description: { en: "One-message WSS exchange (requires websockets).", zh: "透過 WSS 傳送一則訊息並接收回覆。" },
+    members: [f("exchange","exchange url message","Exchange a message over WSS. Fallible.")],
+    example: "use websocket\\n\\n# Connect to a WSS endpoint that accepts one message.\\nsay try websocket.exchange \"wss://example.com/socket\" \"Hello\""
+  },
+  ai: {
+    group: "ecosystem", description: { en: "Chat with a compatible HTTPS AI endpoint.", zh: "呼叫相容的 HTTPS AI 端點進行對話。" },
+    members: [f("chat","chat endpoint api_key model prompt","Request an HTTPS chat completion. Fallible.")],
+    example: "use ai\\n\\n# Supply a compatible endpoint, API key, and model.\\nanswer = try ai.chat \"https://api.example.com/v1\" \"API_KEY\" \"model\" \"Explain SE briefly\"\\nsay answer"
+  },
+  embedding: {
+    group: "ecosystem", description: { en: "Create vectors through a compatible HTTPS embedding endpoint.", zh: "呼叫相容的 HTTPS embedding 端點建立向量。" },
+    members: [f("create","create endpoint api_key model text","Request an HTTPS embedding vector. Fallible.")],
+    example: "use embedding\\n\\n# Supply a compatible endpoint and API key.\\nvector = try embedding.create \"https://api.example.com/v1\" \"API_KEY\" \"model\" \"SE language\"\\nsay vector"
+  },
+  ml: {
+    group: "math", description: { en: "One-variable linear regression and prediction.", zh: "單變數線性迴歸與數值預測。" },
+    members: [f("linear_regression","linear_regression xs ys","Fit a one-variable linear regression. Fallible."),f("predict","predict model x","Predict a numeric value. Fallible.")],
+    example: "use ml\\n\\nmodel = try ml.linear_regression [1, 2, 3] [3, 5, 7]\\nsay try ml.predict model 4"
+  },
+  tensor: {
+    group: "math", description: { en: "Numeric tensor shape, addition, and 2D multiplication.", zh: "數值 tensor 維度、加法與二維乘法。" },
+    members: [f("shape","shape values","Return tensor dimensions. Fallible."),f("add","add left right","Add tensors elementwise. Fallible."),f("matmul","matmul left right","Multiply 2D tensors. Fallible.")],
+    example: "use tensor\\n\\na = [[1, 2], [3, 4]]\\nb = [[1, 0], [0, 1]]\\nsay try tensor.shape a\\nsay try tensor.add a b"
+  },
+  video: {
+    group: "ecosystem", description: { en: "Add browser video to an SE game scene.", zh: "將瀏覽器影片加入 SE game scene。" },
+    members: [f("add","add scene url x y width height","Add browser video to a scene."),f("stop","stop scene","Stop scene video playback.")],
+    example: "use video\\n\\nscene = game.new 640 360 \"Video demo\"\\nvideo.add scene \"clip.mp4\" 0 0 320 180"
+  },
+  camera: {
+    group: "ecosystem", description: { en: "Request and display browser camera video.", zh: "請求瀏覽器相機並顯示影像。" },
+    members: [f("start","start scene x y width height","Request browser camera for a scene."),f("stop","stop scene","Stop browser camera capture.")],
+    example: "use camera\\n\\nscene = game.new 640 360 \"Camera demo\"\\ncamera.start scene 0 0 320 240"
   }
 };
 
@@ -438,11 +667,31 @@ const aliases: Record<string, string> = {
   argparse: 'args',
   logging: 'log',
   zipfile: 'zip',
-  sqlite3: 'sqlite'
+  sqlite3: 'sqlite',
+  config: 'dotenv',
+  series: 'array',
+  linear: 'matrix',
+  dataset: 'table',
+  http_server: 'web',
+  router: 'web',
+  dns: 'socket',
+  gui: 'game',
+  window: 'game',
+  canvas: 'game',
+  input: 'game',
+  sprite: 'game',
+  physics: 'game',
+  sound: 'game',
+  keyboard: 'game',
+  mouse: 'game',
+  animation: 'game',
+  scene: 'game',
+  collision: 'game',
+  image: 'game',
+  audio: 'game'
 };
 
-const moduleOrder = [
-  'file','path','time','math','random','os','json','text','collections','test','process','http','web','js','ts','function','async','threading','option','result','match','db','https','data','net','node','next','game','statistics','regex','re','base64','uuid','iter','itertools','copy','operator','decimal','csv','datetime','hash','hashlib','pickle','args','argparse','log','logging','shutil','glob','zip','zipfile','subprocess','socket','queue','sqlite','sqlite3','functools','enum','typing'
+const moduleOrder = ['file','path','time','math','random','os','json','text','collections','test','process','http','web','js','ts','function','async','threading','option','result','match','db','https','data','net','node','next','game','statistics','regex','re','base64','uuid','iter','itertools','copy','operator','decimal','csv','datetime','hash','hashlib','pickle','args','argparse','log','logging','shutil','glob','zip','zipfile','subprocess','socket','queue','sqlite','sqlite3','functools','enum','typing','url','encoding','dotenv','config','array','series','matrix','linear','probability','fraction','complex','calculus','units','table','dataset','cookie','cors','template','static','upload','tilemap','http_server','router','dns','toml','yaml','xml','markdown','crypto','jwt','session','auth','email','smtp','imap','ftp','ssh','websocket','ai','embedding','ml','tensor','video','camera','gui','window','canvas','input','sprite','physics','sound','keyboard','mouse','animation','scene','collision','image','audio'
 ];
 
 function aliasModule(name: string, target: string): SeModule {
@@ -460,11 +709,13 @@ function aliasModule(name: string, target: string): SeModule {
   };
 }
 
+const helpMember = f('help', 'help', 'Show this module\'s available members and descriptions.', 'value');
+
 export const modules: SeModule[] = moduleOrder.map((name) => {
-  if (aliases[name]) return aliasModule(name, aliases[name]);
+  if (aliases[name]) return { ...aliasModule(name, aliases[name]), members: [helpMember, ...aliasModule(name, aliases[name]).members] };
   const data = base[name];
   if (!data) throw new Error(`Missing module data: ${name}`);
-  return { name, ...data };
+  return { name, ...data, members: [helpMember, ...data.members] };
 });
 
 export const moduleByName = Object.fromEntries(modules.map((m) => [m.name, m]));
