@@ -254,7 +254,7 @@ function moduleCall(moduleName: string, member: string, args: unknown[]): unknow
     re: {
       find_all: (pattern, value) => Array.from(text(value).matchAll(new RegExp(text(pattern), 'g')), (m) => m[0]),
       count: (pattern, value) => Array.from(text(value).matchAll(new RegExp(text(pattern), 'g'))).length,
-      escape: (value) => [...text(value)].map((ch) => '.^$*+?()[]{}|\\\\'.includes(ch) ? '\\\\' + ch : ch).join(''),
+      escape: (value) => [...text(value)].map((ch) => '.^$*+?()[]{}|\\'.includes(ch) ? '\\' + ch : ch).join(''),
       groups: (pattern, value) => { const m = text(value).match(new RegExp(text(pattern))); return m ? m.slice(1) : []; },
       match: (pattern, value) => new RegExp('^(?:' + text(pattern) + ')').test(text(value)),
       search: (pattern, value) => new RegExp(text(pattern)).test(text(value)),
