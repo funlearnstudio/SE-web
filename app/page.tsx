@@ -25,7 +25,7 @@ export default function HomePage() {
           <div className="hero-actions">
             <Link className="button-primary" href="/learn">{zh ? '開始學 SE' : 'Start learning'}</Link>
             <Link className="button-secondary" href="/playground">{zh ? '開啟線上模擬器' : 'Open playground'}</Link>
-            <Link className="button-quiet" href="/modules">59 {zh ? '個 Module →' : 'modules →'}</Link>
+            <Link className="button-quiet" href="/modules">117 {zh ? '個 Module →' : 'modules →'}</Link>
           </div>
         </div>
         <div className="hero-panel" aria-label="SE code example">
@@ -43,7 +43,7 @@ export default function HomePage() {
 
       <section className="section-tight">
         <div className="container stat-strip">
-          <div className="stat"><strong>59</strong><span>{zh ? '可直接 use 的 built-in module' : 'directly importable built-in modules'}</span></div>
+          <div className="stat"><strong>117</strong><span>{zh ? '可直接 use 的 built-in module' : 'directly importable built-in modules'}</span></div>
           <div className="stat"><strong>.se</strong><span>{zh ? '清楚、低標點的原始碼' : 'clean, low-punctuation source'}</span></div>
           <div className="stat"><strong>3</strong><span>{zh ? '主要工作流：check / run / build' : 'core workflows: check / run / build'}</span></div>
           <div className="stat"><strong>Web</strong><span>{zh ? '輸出 HTML / CSS / JS / TS' : 'HTML / CSS / JS / TS output'}</span></div>
@@ -98,7 +98,7 @@ export default function HomePage() {
           <div className="section-heading">
             <div>
               <h2>{zh ? '從語法一路學到完整應用' : 'Learn from syntax to complete workflows'}</h2>
-              <p>{zh ? '文件依主題拆頁，59 個 module 也各自有 API 與使用範例。' : 'The documentation is split into focused lessons, with a dedicated API guide and example for every built-in module.'}</p>
+              <p>{zh ? '文件依主題拆頁，117 個 module 也各自有 API 與使用範例。' : 'The documentation is split into focused lessons, with a dedicated API guide and example for every built-in module.'}</p>
             </div>
             <Link href="/learn">{zh ? '查看完整教學 →' : 'Read the full guide →'}</Link>
           </div>
