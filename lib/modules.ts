@@ -11,7 +11,6 @@ export type SeModule = {
   description: { en: string; zh: string };
   members: ModuleMember[];
   example: string;
-  aliasFor?: string;
 };
 
 const zhExact: Record<string, string> = {
@@ -643,54 +642,152 @@ const base: Record<string, Omit<SeModule, 'name'>> = {
   }
 };
 
-const aliases: Record<string, string> = {
-  re: 'regex',
-  itertools: 'iter',
-  hashlib: 'hash',
-  argparse: 'args',
-  logging: 'log',
-  zipfile: 'zip',
-  sqlite3: 'sqlite',
-  config: 'dotenv',
-  series: 'array',
-  linear: 'matrix',
-  dataset: 'table',
-  http_server: 'web',
-  router: 'web',
-  dns: 'socket',
-  gui: 'game',
-  window: 'game',
-  canvas: 'game',
-  input: 'game',
-  sprite: 'game',
-  physics: 'game',
-  sound: 'game',
-  keyboard: 'game',
-  mouse: 'game',
-  animation: 'game',
-  scene: 'game',
-  collision: 'game',
-  image: 'game',
-  audio: 'game'
-};
-
 const moduleOrder = ['file','path','time','math','random','os','json','text','collections','test','process','http','web','js','ts','function','async','threading','option','result','match','db','https','data','net','node','next','game','statistics','regex','re','base64','uuid','iter','itertools','copy','operator','decimal','csv','datetime','hash','hashlib','pickle','args','argparse','log','logging','shutil','glob','zip','zipfile','subprocess','socket','queue','sqlite','sqlite3','functools','enum','typing','url','encoding','dotenv','config','array','series','matrix','linear','probability','fraction','complex','calculus','units','table','dataset','cookie','cors','template','static','upload','tilemap','http_server','router','dns','toml','yaml','xml','markdown','crypto','jwt','session','auth','email','smtp','imap','ftp','ssh','websocket','ai','embedding','ml','tensor','video','camera','gui','window','canvas','input','sprite','physics','sound','keyboard','mouse','animation','scene','collision','image','audio'
 ];
 
-function aliasModule(name: string, target: string): SeModule {
-  const original = base[target];
-  return {
-    name,
-    group: original.group,
-    description: {
-      en: `Alias for ${target}. ${original.description.en}`,
-      zh: `${target} 的別名。${original.description.zh}`
-    },
-    members: original.members,
-    example: original.example.replace(`use ${target}`, `use ${name}`).replaceAll(`${target}.`, `${name}.`),
-    aliasFor: target
-  };
-}
+const independentPackages: Record<string, Omit<SeModule, 'name'>> = {
+  re: {
+    group: 'data', description: { en: 'Regular expression search, extraction, and replacement tools.', zh: zh('Regular expression search, extraction, and replacement tools.') },
+    members: [f('find_all', 're.find_all', 'Regular expression search, extraction, and replacement tools.'), f('count', 're.count', 'Regular expression search, extraction, and replacement tools.'), f('escape', 're.escape', 'Regular expression search, extraction, and replacement tools.'), f('groups', 're.groups', 'Regular expression search, extraction, and replacement tools.'), f('match', 're.match', 'Regular expression search, extraction, and replacement tools.'), f('search', 're.search', 'Regular expression search, extraction, and replacement tools.'), f('replace', 're.replace', 'Regular expression search, extraction, and replacement tools.'), f('split', 're.split', 'Regular expression search, extraction, and replacement tools.')],
+    example: "use re\n\nmatches = re.find_all \"[0-9]+\" \"Order 12 then 34\"\nsay matches"
+  },
+  itertools: {
+    group: 'data', description: { en: 'Sequence construction, chunking, windows, and transformations.', zh: zh('Sequence construction, chunking, windows, and transformations.') },
+    members: [f('chain', 'itertools.chain', 'Sequence construction, chunking, windows, and transformations.'), f('flatten', 'itertools.flatten', 'Sequence construction, chunking, windows, and transformations.'), f('chunked', 'itertools.chunked', 'Sequence construction, chunking, windows, and transformations.'), f('take', 'itertools.take', 'Sequence construction, chunking, windows, and transformations.'), f('drop', 'itertools.drop', 'Sequence construction, chunking, windows, and transformations.'), f('windows', 'itertools.windows', 'Sequence construction, chunking, windows, and transformations.'), f('cycle', 'itertools.cycle', 'Sequence construction, chunking, windows, and transformations.'), f('pairs', 'itertools.pairs', 'Sequence construction, chunking, windows, and transformations.'), f('unique', 'itertools.unique', 'Sequence construction, chunking, windows, and transformations.')],
+    example: "use itertools\n\nchunks = itertools.chunked [1, 2, 3, 4, 5] 2\nsay chunks"
+  },
+  hashlib: {
+    group: 'safety', description: { en: 'Cryptographic digests, HMAC, file hashing, and comparisons.', zh: zh('Cryptographic digests, HMAC, file hashing, and comparisons.') },
+    members: [f('sha256', 'hashlib.sha256', 'Cryptographic digests, HMAC, file hashing, and comparisons.'), f('sha512', 'hashlib.sha512', 'Cryptographic digests, HMAC, file hashing, and comparisons.'), f('file_sha256', 'hashlib.file_sha256', 'Cryptographic digests, HMAC, file hashing, and comparisons.'), f('file_sha512', 'hashlib.file_sha512', 'Cryptographic digests, HMAC, file hashing, and comparisons.'), f('hmac_sha256', 'hashlib.hmac_sha256', 'Cryptographic digests, HMAC, file hashing, and comparisons.'), f('compare', 'hashlib.compare', 'Cryptographic digests, HMAC, file hashing, and comparisons.'), f('to_hex', 'hashlib.to_hex', 'Cryptographic digests, HMAC, file hashing, and comparisons.')],
+    example: "use hashlib\n\nsay hashlib.sha256 \"hello\""
+  },
+  argparse: {
+    group: 'io', description: { en: 'Declarative command-line argument parsing and generated help.', zh: zh('Declarative command-line argument parsing and generated help.') },
+    members: [f('parser', 'argparse.parser', 'Declarative command-line argument parsing and generated help.'), f('option', 'argparse.option', 'Declarative command-line argument parsing and generated help.'), f('flag', 'argparse.flag', 'Declarative command-line argument parsing and generated help.'), f('parse_args', 'argparse.parse_args', 'Declarative command-line argument parsing and generated help.'), f('help', 'argparse.help', 'Declarative command-line argument parsing and generated help.'), f('get', 'argparse.get', 'Declarative command-line argument parsing and generated help.'), f('has', 'argparse.has', 'Declarative command-line argument parsing and generated help.'), f('positionals', 'argparse.positionals', 'Declarative command-line argument parsing and generated help.')],
+    example: "use argparse\n\nspec = argparse.parser \"Build tool\"\nargs = argparse.parse_args spec [\"--mode\", \"fast\"]\nsay args"
+  },
+  logging: {
+    group: 'io', description: { en: 'Named loggers, configurable levels, formatting, and log records.', zh: zh('Named loggers, configurable levels, formatting, and log records.') },
+    members: [f('get_logger', 'logging.get_logger', 'Named loggers, configurable levels, formatting, and log records.'), f('set_level', 'logging.set_level', 'Named loggers, configurable levels, formatting, and log records.'), f('debug', 'logging.debug', 'Named loggers, configurable levels, formatting, and log records.'), f('info', 'logging.info', 'Named loggers, configurable levels, formatting, and log records.'), f('warning', 'logging.warning', 'Named loggers, configurable levels, formatting, and log records.'), f('error', 'logging.error', 'Named loggers, configurable levels, formatting, and log records.'), f('critical', 'logging.critical', 'Named loggers, configurable levels, formatting, and log records.'), f('format', 'logging.format', 'Named loggers, configurable levels, formatting, and log records.'), f('records', 'logging.records', 'Named loggers, configurable levels, formatting, and log records.')],
+    example: "use logging\n\nlogger = logging.get_logger \"app\"\nlogging.set_level \"info\"\nlogging.info \"service ready\""
+  },
+  zipfile: {
+    group: 'io', description: { en: 'ZIP archive creation, inspection, extraction, and integrity checks.', zh: zh('ZIP archive creation, inspection, extraction, and integrity checks.') },
+    members: [f('create', 'zipfile.create', 'ZIP archive creation, inspection, extraction, and integrity checks.'), f('open', 'zipfile.open', 'ZIP archive creation, inspection, extraction, and integrity checks.'), f('entries', 'zipfile.entries', 'ZIP archive creation, inspection, extraction, and integrity checks.'), f('read', 'zipfile.read', 'ZIP archive creation, inspection, extraction, and integrity checks.'), f('write', 'zipfile.write', 'ZIP archive creation, inspection, extraction, and integrity checks.'), f('extract', 'zipfile.extract', 'ZIP archive creation, inspection, extraction, and integrity checks.'), f('test', 'zipfile.test', 'ZIP archive creation, inspection, extraction, and integrity checks.'), f('is_zip', 'zipfile.is_zip', 'ZIP archive creation, inspection, extraction, and integrity checks.')],
+    example: "use zipfile\n\nsay zipfile.entries \"backup.zip\""
+  },
+  sqlite3: {
+    group: 'data', description: { en: 'SQLite connections, parameterized queries, transactions, and schema inspection.', zh: zh('SQLite connections, parameterized queries, transactions, and schema inspection.') },
+    members: [f('connect', 'sqlite3.connect', 'SQLite connections, parameterized queries, transactions, and schema inspection.'), f('execute', 'sqlite3.execute', 'SQLite connections, parameterized queries, transactions, and schema inspection.'), f('executemany', 'sqlite3.executemany', 'SQLite connections, parameterized queries, transactions, and schema inspection.'), f('query', 'sqlite3.query', 'SQLite connections, parameterized queries, transactions, and schema inspection.'), f('query_one', 'sqlite3.query_one', 'SQLite connections, parameterized queries, transactions, and schema inspection.'), f('table_info', 'sqlite3.table_info', 'SQLite connections, parameterized queries, transactions, and schema inspection.'), f('begin', 'sqlite3.begin', 'SQLite connections, parameterized queries, transactions, and schema inspection.'), f('commit', 'sqlite3.commit', 'SQLite connections, parameterized queries, transactions, and schema inspection.'), f('rollback', 'sqlite3.rollback', 'SQLite connections, parameterized queries, transactions, and schema inspection.'), f('close', 'sqlite3.close', 'SQLite connections, parameterized queries, transactions, and schema inspection.')],
+    example: "use sqlite3\n\ndb = sqlite3.connect \"app.db\"\nsay sqlite3.query db \"select name from users\""
+  },
+  config: {
+    group: 'io', description: { en: 'Structured settings with typed reads, sections, merging, and environment overrides.', zh: zh('Structured settings with typed reads, sections, merging, and environment overrides.') },
+    members: [f('parse', 'config.parse', 'Structured settings with typed reads, sections, merging, and environment overrides.'), f('load', 'config.load', 'Structured settings with typed reads, sections, merging, and environment overrides.'), f('get', 'config.get', 'Structured settings with typed reads, sections, merging, and environment overrides.'), f('get_int', 'config.get_int', 'Structured settings with typed reads, sections, merging, and environment overrides.'), f('get_bool', 'config.get_bool', 'Structured settings with typed reads, sections, merging, and environment overrides.'), f('section', 'config.section', 'Structured settings with typed reads, sections, merging, and environment overrides.'), f('merge', 'config.merge', 'Structured settings with typed reads, sections, merging, and environment overrides.'), f('from_env', 'config.from_env', 'Structured settings with typed reads, sections, merging, and environment overrides.'), f('validate', 'config.validate', 'Structured settings with typed reads, sections, merging, and environment overrides.')],
+    example: "use config\n\nsettings = config.parse \"[server]\\nport = 8080\"\nsay config.get_int settings \"server.port\""
+  },
+  series: {
+    group: 'math', description: { en: 'Numeric time-series transforms and rolling statistics.', zh: zh('Numeric time-series transforms and rolling statistics.') },
+    members: [f('sum', 'series.sum', 'Numeric time-series transforms and rolling statistics.'), f('mean', 'series.mean', 'Numeric time-series transforms and rolling statistics.'), f('diff', 'series.diff', 'Numeric time-series transforms and rolling statistics.'), f('lag', 'series.lag', 'Numeric time-series transforms and rolling statistics.'), f('moving_average', 'series.moving_average', 'Numeric time-series transforms and rolling statistics.'), f('cumulative_sum', 'series.cumulative_sum', 'Numeric time-series transforms and rolling statistics.'), f('returns', 'series.returns', 'Numeric time-series transforms and rolling statistics.'), f('normalize', 'series.normalize', 'Numeric time-series transforms and rolling statistics.')],
+    example: "use series\n\nsay series.moving_average [3, 5, 4, 8, 9] 3"
+  },
+  linear: {
+    group: 'math', description: { en: 'Vector and matrix algebra, including determinant and inverse operations.', zh: zh('Vector and matrix algebra, including determinant and inverse operations.') },
+    members: [f('identity', 'linear.identity', 'Vector and matrix algebra, including determinant and inverse operations.'), f('transpose', 'linear.transpose', 'Vector and matrix algebra, including determinant and inverse operations.'), f('multiply', 'linear.multiply', 'Vector and matrix algebra, including determinant and inverse operations.'), f('determinant', 'linear.determinant', 'Vector and matrix algebra, including determinant and inverse operations.'), f('inverse', 'linear.inverse', 'Vector and matrix algebra, including determinant and inverse operations.'), f('dot', 'linear.dot', 'Vector and matrix algebra, including determinant and inverse operations.'), f('norm', 'linear.norm', 'Vector and matrix algebra, including determinant and inverse operations.'), f('normalize', 'linear.normalize', 'Vector and matrix algebra, including determinant and inverse operations.')],
+    example: "use linear\n\nsay linear.determinant [[2, 1], [1, 3]]"
+  },
+  dataset: {
+    group: 'data', description: { en: 'Dataset column selection, filtering, uniqueness, and train/test splits.', zh: zh('Dataset column selection, filtering, uniqueness, and train/test splits.') },
+    members: [f('columns', 'dataset.columns', 'Dataset column selection, filtering, uniqueness, and train/test splits.'), f('filter_eq', 'dataset.filter_eq', 'Dataset column selection, filtering, uniqueness, and train/test splits.'), f('unique', 'dataset.unique', 'Dataset column selection, filtering, uniqueness, and train/test splits.'), f('split', 'dataset.split', 'Dataset column selection, filtering, uniqueness, and train/test splits.'), f('describe', 'dataset.describe', 'Dataset column selection, filtering, uniqueness, and train/test splits.'), f('train_test_split', 'dataset.train_test_split', 'Dataset column selection, filtering, uniqueness, and train/test splits.')],
+    example: "use dataset\n\nrows = [{name: \"Ada\", team: \"A\"}, {name: \"Lin\", team: \"B\"}]\nsay dataset.columns rows"
+  },
+  http_server: {
+    group: 'network', description: { en: 'HTTP application setup, middleware, static files, and responses.', zh: zh('HTTP application setup, middleware, static files, and responses.') },
+    members: [f('create', 'http_server.create', 'HTTP application setup, middleware, static files, and responses.'), f('route', 'http_server.route', 'HTTP application setup, middleware, static files, and responses.'), f('middleware', 'http_server.middleware', 'HTTP application setup, middleware, static files, and responses.'), f('static', 'http_server.static', 'HTTP application setup, middleware, static files, and responses.'), f('listen', 'http_server.listen', 'HTTP application setup, middleware, static files, and responses.'), f('respond', 'http_server.respond', 'HTTP application setup, middleware, static files, and responses.'), f('status', 'http_server.status', 'HTTP application setup, middleware, static files, and responses.'), f('header', 'http_server.header', 'HTTP application setup, middleware, static files, and responses.')],
+    example: "use http_server\n\napp = http_server.create \"demo\"\nhttp_server.listen app 8080"
+  },
+  router: {
+    group: 'network', description: { en: 'Independent route registration, matching, parameter extraction, and dispatch.', zh: zh('Independent route registration, matching, parameter extraction, and dispatch.') },
+    members: [f('add', 'router.add', 'Independent route registration, matching, parameter extraction, and dispatch.'), f('get', 'router.get', 'Independent route registration, matching, parameter extraction, and dispatch.'), f('post', 'router.post', 'Independent route registration, matching, parameter extraction, and dispatch.'), f('put', 'router.put', 'Independent route registration, matching, parameter extraction, and dispatch.'), f('delete', 'router.delete', 'Independent route registration, matching, parameter extraction, and dispatch.'), f('match', 'router.match', 'Independent route registration, matching, parameter extraction, and dispatch.'), f('dispatch', 'router.dispatch', 'Independent route registration, matching, parameter extraction, and dispatch.'), f('params', 'router.params', 'Independent route registration, matching, parameter extraction, and dispatch.'), f('not_found', 'router.not_found', 'Independent route registration, matching, parameter extraction, and dispatch.')],
+    example: "use router\n\nr = router.new\nrouter.get r \"/users/:id\" handler"
+  },
+  dns: {
+    group: 'network', description: { en: 'Host and address lookup, reverse DNS, and IP validation.', zh: zh('Host and address lookup, reverse DNS, and IP validation.') },
+    members: [f('resolve', 'dns.resolve', 'Host and address lookup, reverse DNS, and IP validation.'), f('resolve4', 'dns.resolve4', 'Host and address lookup, reverse DNS, and IP validation.'), f('resolve6', 'dns.resolve6', 'Host and address lookup, reverse DNS, and IP validation.'), f('reverse', 'dns.reverse', 'Host and address lookup, reverse DNS, and IP validation.'), f('is_ip', 'dns.is_ip', 'Host and address lookup, reverse DNS, and IP validation.'), f('lookup_mx', 'dns.lookup_mx', 'Host and address lookup, reverse DNS, and IP validation.'), f('lookup_txt', 'dns.lookup_txt', 'Host and address lookup, reverse DNS, and IP validation.')],
+    example: "use dns\n\nsay dns.resolve4 \"example.com\""
+  },
+  gui: {
+    group: 'ecosystem', description: { en: 'Build a graphical interface from panels and controls.', zh: zh('Build a graphical interface from panels and controls.') },
+    members: [f('window', 'gui.window', 'Build a graphical interface from panels and controls.'), f('panel', 'gui.panel', 'Build a graphical interface from panels and controls.'), f('label', 'gui.label', 'Build a graphical interface from panels and controls.'), f('button', 'gui.button', 'Build a graphical interface from panels and controls.'), f('input', 'gui.input', 'Build a graphical interface from panels and controls.'), f('checkbox', 'gui.checkbox', 'Build a graphical interface from panels and controls.'), f('show', 'gui.show', 'Build a graphical interface from panels and controls.'), f('close', 'gui.close', 'Build a graphical interface from panels and controls.')],
+    example: "use gui\n\nui = gui.window 640 400 \"Settings\"\ngui.button ui \"save\" \"Save\" 20 20"
+  },
+  window: {
+    group: 'ecosystem', description: { en: 'Create and control browser windows and display dimensions.', zh: zh('Create and control browser windows and display dimensions.') },
+    members: [f('create', 'window.create', 'Create and control browser windows and display dimensions.'), f('title', 'window.title', 'Create and control browser windows and display dimensions.'), f('resize', 'window.resize', 'Create and control browser windows and display dimensions.'), f('fullscreen', 'window.fullscreen', 'Create and control browser windows and display dimensions.'), f('center', 'window.center', 'Create and control browser windows and display dimensions.'), f('close', 'window.close', 'Create and control browser windows and display dimensions.'), f('width', 'window.width', 'Create and control browser windows and display dimensions.'), f('height', 'window.height', 'Create and control browser windows and display dimensions.')],
+    example: "use window\n\nw = window.create 640 400 \"Demo\"\nwindow.fullscreen w"
+  },
+  canvas: {
+    group: 'ecosystem', description: { en: 'Canvas drawing, sizing, clearing, and image export.', zh: zh('Canvas drawing, sizing, clearing, and image export.') },
+    members: [f('size', 'canvas.size', 'Canvas drawing, sizing, clearing, and image export.'), f('clear', 'canvas.clear', 'Canvas drawing, sizing, clearing, and image export.'), f('rect', 'canvas.rect', 'Canvas drawing, sizing, clearing, and image export.'), f('circle', 'canvas.circle', 'Canvas drawing, sizing, clearing, and image export.'), f('line', 'canvas.line', 'Canvas drawing, sizing, clearing, and image export.'), f('text', 'canvas.text', 'Canvas drawing, sizing, clearing, and image export.'), f('image', 'canvas.image', 'Canvas drawing, sizing, clearing, and image export.'), f('save', 'canvas.save', 'Canvas drawing, sizing, clearing, and image export.')],
+    example: "use canvas\n\nc = canvas.new 320 200\ncanvas.circle c 80 80 30 \"orange\""
+  },
+  input: {
+    group: 'ecosystem', description: { en: 'Keyboard and pointer state helpers and event registration.', zh: zh('Keyboard and pointer state helpers and event registration.') },
+    members: [f('key_down', 'input.key_down', 'Keyboard and pointer state helpers and event registration.'), f('key_pressed', 'input.key_pressed', 'Keyboard and pointer state helpers and event registration.'), f('mouse_position', 'input.mouse_position', 'Keyboard and pointer state helpers and event registration.'), f('mouse_down', 'input.mouse_down', 'Keyboard and pointer state helpers and event registration.'), f('on_key', 'input.on_key', 'Keyboard and pointer state helpers and event registration.'), f('on_click', 'input.on_click', 'Keyboard and pointer state helpers and event registration.')],
+    example: "use input\n\nsay input.key_pressed scene \"Space\""
+  },
+  sprite: {
+    group: 'ecosystem', description: { en: 'Sprite loading, drawing, transforms, and animation.', zh: zh('Sprite loading, drawing, transforms, and animation.') },
+    members: [f('load', 'sprite.load', 'Sprite loading, drawing, transforms, and animation.'), f('draw', 'sprite.draw', 'Sprite loading, drawing, transforms, and animation.'), f('scale', 'sprite.scale', 'Sprite loading, drawing, transforms, and animation.'), f('rotate', 'sprite.rotate', 'Sprite loading, drawing, transforms, and animation.'), f('flip', 'sprite.flip', 'Sprite loading, drawing, transforms, and animation.'), f('animate', 'sprite.animate', 'Sprite loading, drawing, transforms, and animation.'), f('remove', 'sprite.remove', 'Sprite loading, drawing, transforms, and animation.'), f('bounds', 'sprite.bounds', 'Sprite loading, drawing, transforms, and animation.')],
+    example: "use sprite\n\nsprite.load scene \"hero.png\" \"hero\""
+  },
+  physics: {
+    group: 'ecosystem', description: { en: 'Basic body integration, forces, gravity, and collision math.', zh: zh('Basic body integration, forces, gravity, and collision math.') },
+    members: [f('body', 'physics.body', 'Basic body integration, forces, gravity, and collision math.'), f('velocity', 'physics.velocity', 'Basic body integration, forces, gravity, and collision math.'), f('gravity', 'physics.gravity', 'Basic body integration, forces, gravity, and collision math.'), f('force', 'physics.force', 'Basic body integration, forces, gravity, and collision math.'), f('integrate', 'physics.integrate', 'Basic body integration, forces, gravity, and collision math.'), f('collide', 'physics.collide', 'Basic body integration, forces, gravity, and collision math.'), f('distance', 'physics.distance', 'Basic body integration, forces, gravity, and collision math.'), f('clamp', 'physics.clamp', 'Basic body integration, forces, gravity, and collision math.')],
+    example: "use physics\n\nbody = physics.body 0 0 2 3\nphysics.integrate body 0.016"
+  },
+  sound: {
+    group: 'ecosystem', description: { en: 'Sound synthesis and playback controls.', zh: zh('Sound synthesis and playback controls.') },
+    members: [f('tone', 'sound.tone', 'Sound synthesis and playback controls.'), f('beep', 'sound.beep', 'Sound synthesis and playback controls.'), f('noise', 'sound.noise', 'Sound synthesis and playback controls.'), f('volume', 'sound.volume', 'Sound synthesis and playback controls.'), f('play', 'sound.play', 'Sound synthesis and playback controls.'), f('stop', 'sound.stop', 'Sound synthesis and playback controls.'), f('fade', 'sound.fade', 'Sound synthesis and playback controls.')],
+    example: "use sound\n\nsound.tone scene 440 0.2"
+  },
+  keyboard: {
+    group: 'ecosystem', description: { en: 'Keyboard state queries and callbacks.', zh: zh('Keyboard state queries and callbacks.') },
+    members: [f('pressed', 'keyboard.pressed', 'Keyboard state queries and callbacks.'), f('just_pressed', 'keyboard.just_pressed', 'Keyboard state queries and callbacks.'), f('just_released', 'keyboard.just_released', 'Keyboard state queries and callbacks.'), f('key_code', 'keyboard.key_code', 'Keyboard state queries and callbacks.'), f('on_press', 'keyboard.on_press', 'Keyboard state queries and callbacks.'), f('on_release', 'keyboard.on_release', 'Keyboard state queries and callbacks.')],
+    example: "use keyboard\n\nsay keyboard.pressed scene \"ArrowLeft\""
+  },
+  mouse: {
+    group: 'ecosystem', description: { en: 'Pointer position, buttons, wheel, and callbacks.', zh: zh('Pointer position, buttons, wheel, and callbacks.') },
+    members: [f('position', 'mouse.position', 'Pointer position, buttons, wheel, and callbacks.'), f('button_down', 'mouse.button_down', 'Pointer position, buttons, wheel, and callbacks.'), f('just_clicked', 'mouse.just_clicked', 'Pointer position, buttons, wheel, and callbacks.'), f('wheel', 'mouse.wheel', 'Pointer position, buttons, wheel, and callbacks.'), f('on_move', 'mouse.on_move', 'Pointer position, buttons, wheel, and callbacks.'), f('on_click', 'mouse.on_click', 'Pointer position, buttons, wheel, and callbacks.')],
+    example: "use mouse\n\nsay mouse.position scene"
+  },
+  animation: {
+    group: 'ecosystem', description: { en: 'Tween and sequence helpers with easing and cancellation.', zh: zh('Tween and sequence helpers with easing and cancellation.') },
+    members: [f('tween', 'animation.tween', 'Tween and sequence helpers with easing and cancellation.'), f('sequence', 'animation.sequence', 'Tween and sequence helpers with easing and cancellation.'), f('repeat', 'animation.repeat', 'Tween and sequence helpers with easing and cancellation.'), f('ease', 'animation.ease', 'Tween and sequence helpers with easing and cancellation.'), f('cancel', 'animation.cancel', 'Tween and sequence helpers with easing and cancellation.'), f('is_running', 'animation.is_running', 'Tween and sequence helpers with easing and cancellation.')],
+    example: "use animation\n\nanimation.tween scene \"x\" 0 300 0.5 \"ease_out\""
+  },
+  scene: {
+    group: 'ecosystem', description: { en: 'Scene creation, composition, and transitions.', zh: zh('Scene creation, composition, and transitions.') },
+    members: [f('new', 'scene.new', 'Scene creation, composition, and transitions.'), f('background', 'scene.background', 'Scene creation, composition, and transitions.'), f('clear', 'scene.clear', 'Scene creation, composition, and transitions.'), f('add', 'scene.add', 'Scene creation, composition, and transitions.'), f('remove', 'scene.remove', 'Scene creation, composition, and transitions.'), f('transition', 'scene.transition', 'Scene creation, composition, and transitions.'), f('save', 'scene.save', 'Scene creation, composition, and transitions.'), f('load', 'scene.load', 'Scene creation, composition, and transitions.')],
+    example: "use scene\n\nlevel = scene.new 640 360 \"Level 1\"\nscene.background level \"#203040\""
+  },
+  collision: {
+    group: 'ecosystem', description: { en: 'Point, rectangle, and circle collision tests.', zh: zh('Point, rectangle, and circle collision tests.') },
+    members: [f('point_rect', 'collision.point_rect', 'Point, rectangle, and circle collision tests.'), f('rect_rect', 'collision.rect_rect', 'Point, rectangle, and circle collision tests.'), f('circle_circle', 'collision.circle_circle', 'Point, rectangle, and circle collision tests.'), f('circle_rect', 'collision.circle_rect', 'Point, rectangle, and circle collision tests.'), f('overlap', 'collision.overlap', 'Point, rectangle, and circle collision tests.'), f('sweep', 'collision.sweep', 'Point, rectangle, and circle collision tests.')],
+    example: "use collision\n\nsay collision.rect_rect 0 0 20 20 15 15 20 20"
+  },
+  image: {
+    group: 'ecosystem', description: { en: 'Image loading, transforms, crop, dimensions, and export.', zh: zh('Image loading, transforms, crop, dimensions, and export.') },
+    members: [f('load', 'image.load', 'Image loading, transforms, crop, dimensions, and export.'), f('draw', 'image.draw', 'Image loading, transforms, crop, dimensions, and export.'), f('crop', 'image.crop', 'Image loading, transforms, crop, dimensions, and export.'), f('resize', 'image.resize', 'Image loading, transforms, crop, dimensions, and export.'), f('flip', 'image.flip', 'Image loading, transforms, crop, dimensions, and export.'), f('pixel', 'image.pixel', 'Image loading, transforms, crop, dimensions, and export.'), f('dimensions', 'image.dimensions', 'Image loading, transforms, crop, dimensions, and export.'), f('save', 'image.save', 'Image loading, transforms, crop, dimensions, and export.')],
+    example: "use image\n\npic = image.load \"icon.png\"\nsay image.dimensions pic"
+  },
+  audio: {
+    group: 'ecosystem', description: { en: 'Audio loading and playback controls.', zh: zh('Audio loading and playback controls.') },
+    members: [f('load', 'audio.load', 'Audio loading and playback controls.'), f('play', 'audio.play', 'Audio loading and playback controls.'), f('pause', 'audio.pause', 'Audio loading and playback controls.'), f('stop', 'audio.stop', 'Audio loading and playback controls.'), f('volume', 'audio.volume', 'Audio loading and playback controls.'), f('loop', 'audio.loop', 'Audio loading and playback controls.'), f('duration', 'audio.duration', 'Audio loading and playback controls.'), f('position', 'audio.position', 'Audio loading and playback controls.')],
+    example: "use audio\n\ntrack = audio.load \"theme.ogg\"\naudio.play track"
+  }
+};
+Object.assign(base, independentPackages);
 
 const helpMember: ModuleMember = {
   name: 'help',
@@ -700,12 +797,9 @@ const helpMember: ModuleMember = {
 };
 
 export const modules: SeModule[] = moduleOrder.map((name) => {
-  if (aliases[name]) return { ...aliasModule(name, aliases[name]), members: [helpMember, ...aliasModule(name, aliases[name]).members] };
   const data = base[name];
   if (!data) throw new Error(`Missing module data: ${name}`);
   return { name, ...data, members: [helpMember, ...data.members] };
 });
-
 export const moduleByName = Object.fromEntries(modules.map((m) => [m.name, m]));
-export const moduleAliases = aliases;
 export const moduleCount = modules.length;
