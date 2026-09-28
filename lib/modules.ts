@@ -239,7 +239,7 @@ const base: Record<string, Omit<SeModule, 'name'>> = {
   collections: {
     group: 'data', description: { en: 'List, Map, Set, sorting, mapping, and filtering helpers.', zh: 'List、Map、Set、排序、map 與 filter 工具。' },
     members: [f('reverse','reverse values','Reverse a collection.'),f('contains','contains values value','Check membership.'),f('first','first values','Return the first value.'),f('last','last values','Return the last value.'),f('unique','unique values','Remove duplicate values.'),f('sort','sort values','Sort values.'),f('keys','keys map','Return Map keys.'),f('values','values map','Return Map values.'),f('filter','filter list predicate','Return values for which predicate is true.'),f('map','map list function','Transform every value into a new List.'),f('reduce','reduce list initial function','Reduce a List into one value.'),f('slice','slice list start end','Return a List slice.'),f('take','take list count','Take the first count values.'),f('drop','drop list count','Drop the first count values.'),f('sort_by','sort_by list field','Sort by a field/key.'),f('sort_by_desc','sort_by_desc list field','Sort descending by field/key.'),f('sort_with','sort_with list comparator','Sort using a comparator function.')],
-    example: 'use collections\n\nnums = [3, 1, 3, 2]\nsay collections.sort nums\nsay collections.unique nums\nsay collections.first nums'
+    example: "use collections\n\ncollections.help\n\nnums = [3, 1, 3, 2]\nsay collections.sort nums\nsay collections.unique nums\nsay collections.first nums"
   },
   test: {
     group: 'testing', description: { en: 'Assertions for SE tests.', zh: 'SE 測試 assertion。' },
@@ -544,7 +544,7 @@ const base: Record<string, Omit<SeModule, 'name'>> = {
   toml: {
     group: "data", description: { en: "TOML parsing through Python 3.11+.", zh: "透過 Python 解析 TOML。" },
     members: [f("parse","parse text","Parse TOML using Python 3.11+. Fallible.")],
-    example: "use toml\n\nsettings = try toml.parse \"name = \\\\\\\"SE\\\\\\\"\"\nsay settings[\"name\"]"
+    example: "use toml\n\nsettings = try toml.parse \"name = \\\"SE\\\"\"\nsay settings[\"name\"]"
   },
   yaml: {
     group: "data", description: { en: "YAML parsing and serialization (requires PyYAML).", zh: "解析與序列化 YAML（需要 PyYAML）。" },
