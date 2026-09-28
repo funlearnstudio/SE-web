@@ -649,37 +649,37 @@ const independentPackages: Record<string, Omit<SeModule, 'name'>> = {
   re: {
     group: 'data', description: { en: 'Regular expression search, extraction, and replacement tools.', zh: zh('Regular expression search, extraction, and replacement tools.') },
     members: [f("find_all","find_all args...","Regular expression search, extraction, replacement, and escaping."),f("count","count args...","Regular expression search, extraction, replacement, and escaping."),f("escape","escape args...","Regular expression search, extraction, replacement, and escaping."),f("groups","groups args...","Regular expression search, extraction, replacement, and escaping."),f("match","match args...","Regular expression search, extraction, replacement, and escaping."),f("search","search args...","Regular expression search, extraction, replacement, and escaping."),f("replace","replace args...","Regular expression search, extraction, replacement, and escaping."),f("split","split args...","Regular expression search, extraction, replacement, and escaping.")],
-    example: "use re\n\nmatches = re.find_all \"[0-9]+\" \"Order 12 then 34\"\nsay matches"
+    example: "use re\n\nsay re.find_all \"[0-9]+\" \"Order 12 then 34\""
   },
   itertools: {
     group: 'data', description: { en: 'Sequence construction, chunking, windows, and transformations.', zh: zh('Sequence construction, chunking, windows, and transformations.') },
     members: [f("chain","chain args...","Sequence chaining, flattening, chunking, windows, and uniqueness."),f("flatten","flatten args...","Sequence chaining, flattening, chunking, windows, and uniqueness."),f("chunked","chunked args...","Sequence chaining, flattening, chunking, windows, and uniqueness."),f("take","take args...","Sequence chaining, flattening, chunking, windows, and uniqueness."),f("drop","drop args...","Sequence chaining, flattening, chunking, windows, and uniqueness."),f("windows","windows args...","Sequence chaining, flattening, chunking, windows, and uniqueness."),f("cycle","cycle args...","Sequence chaining, flattening, chunking, windows, and uniqueness."),f("pairs","pairs args...","Sequence chaining, flattening, chunking, windows, and uniqueness."),f("unique","unique args...","Sequence chaining, flattening, chunking, windows, and uniqueness.")],
-    example: "use itertools\n\nchunks = itertools.chunked [1, 2, 3, 4, 5] 2\nsay chunks"
+    example: "use itertools\n\nsay itertools.chunked [1, 2, 3, 4, 5] 2"
   },
   hashlib: {
     group: 'safety', description: { en: 'Cryptographic digests, HMAC, file hashing, and comparisons.', zh: zh('Cryptographic digests, HMAC, file hashing, and comparisons.') },
     members: [f("sha256","sha256 args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("file_sha256","file_sha256 args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("sha512","sha512 args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("file_sha512","file_sha512 args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("digest","digest args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("file_digest","file_digest args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("hmac_sha256","hmac_sha256 args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("compare","compare args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison."),f("to_hex","to_hex args...","SHA-256 and SHA-512 digests, file hashing, HMAC, and comparison.")],
-    example: "use hashlib\n\nsay hashlib.sha256 \"hello\""
+    example: "use hashlib\n\nsay hashlib.sha256 \"hello\"\nsay hashlib.hmac_sha256 \"secret\" \"hello\""
   },
   argparse: {
     group: 'io', description: { en: 'Declarative command-line argument parsing and generated help.', zh: zh('Declarative command-line argument parsing and generated help.') },
     members: [f("parse_args","parse_args args...","Parse CLI options, retrieve values and flags, and print usage help."),f("get","get args...","Parse CLI options, retrieve values and flags, and print usage help."),f("flag","flag args...","Parse CLI options, retrieve values and flags, and print usage help."),f("help","help args...","Parse CLI options, retrieve values and flags, and print usage help.")],
-    example: "use argparse\n\nspec = argparse.parser \"Build tool\"\nargs = argparse.parse_args spec [\"--mode\", \"fast\"]\nsay args"
+    example: "use argparse\n\noptions = argparse.parse_args [\"--mode\", \"fast\", \"--verbose\"]\nsay argparse.get options \"mode\"\nsay argparse.flag options \"verbose\""
   },
   logging: {
     group: 'io', description: { en: 'Named loggers, configurable levels, formatting, and log records.', zh: zh('Named loggers, configurable levels, formatting, and log records.') },
     members: [f("set_level","set_level args...","Set log levels, write leveled messages, and inspect recent records."),f("debug","debug args...","Set log levels, write leveled messages, and inspect recent records."),f("info","info args...","Set log levels, write leveled messages, and inspect recent records."),f("warning","warning args...","Set log levels, write leveled messages, and inspect recent records."),f("error","error args...","Set log levels, write leveled messages, and inspect recent records."),f("critical","critical args...","Set log levels, write leveled messages, and inspect recent records."),f("records","records args...","Set log levels, write leveled messages, and inspect recent records.")],
-    example: "use logging\n\nlogger = logging.get_logger \"app\"\nlogging.set_level \"info\"\nlogging.info \"service ready\""
+    example: "use logging\n\nlogging.set_level \"info\"\nlogging.info \"service ready\"\nsay logging.records"
   },
   zipfile: {
     group: 'io', description: { en: 'ZIP archive creation, inspection, extraction, and integrity checks.', zh: zh('ZIP archive creation, inspection, extraction, and integrity checks.') },
     members: [f("create","create args...","Create, list, read, test, and extract ZIP archives."),f("extract","extract args...","Create, list, read, test, and extract ZIP archives."),f("is_zip","is_zip args...","Create, list, read, test, and extract ZIP archives."),f("entries","entries args...","Create, list, read, test, and extract ZIP archives."),f("read","read args...","Create, list, read, test, and extract ZIP archives."),f("test","test args...","Create, list, read, test, and extract ZIP archives.")],
-    example: "use zipfile\n\nsay zipfile.entries \"backup.zip\""
+    example: "use zipfile\n\nsay zipfile.entries \"backup.zip\"\nsay zipfile.test \"backup.zip\""
   },
   sqlite3: {
     group: 'data', description: { en: 'SQLite connections, parameterized queries, transactions, and schema inspection.', zh: zh('SQLite connections, parameterized queries, transactions, and schema inspection.') },
     members: [f("open","open args...","Open SQLite databases, query rows, inspect tables, run batches, and back up files."),f("exec","exec args...","Open SQLite databases, query rows, inspect tables, run batches, and back up files."),f("query","query args...","Open SQLite databases, query rows, inspect tables, run batches, and back up files."),f("query_one","query_one args...","Open SQLite databases, query rows, inspect tables, run batches, and back up files."),f("tables","tables args...","Open SQLite databases, query rows, inspect tables, run batches, and back up files."),f("table_info","table_info args...","Open SQLite databases, query rows, inspect tables, run batches, and back up files."),f("execute_many","execute_many args...","Open SQLite databases, query rows, inspect tables, run batches, and back up files."),f("backup","backup args...","Open SQLite databases, query rows, inspect tables, run batches, and back up files.")],
-    example: "use sqlite3\n\ndb = sqlite3.connect \"app.db\"\nsay sqlite3.query db \"select name from users\""
+    example: "use sqlite3\n\ndb = sqlite3.open \"app.db\"\nsay sqlite3.tables db"
   },
   config: {
     group: 'io', description: { en: 'Structured settings with typed reads, sections, merging, and environment overrides.', zh: zh('Structured settings with typed reads, sections, merging, and environment overrides.') },
@@ -694,22 +694,22 @@ const independentPackages: Record<string, Omit<SeModule, 'name'>> = {
   linear: {
     group: 'math', description: { en: 'Vector and matrix algebra, including determinant and inverse operations.', zh: zh('Vector and matrix algebra, including determinant and inverse operations.') },
     members: [f("transpose","transpose args...","Vector and matrix operations, determinants, inverses, and normalization."),f("multiply","multiply args...","Vector and matrix operations, determinants, inverses, and normalization."),f("dot","dot args...","Vector and matrix operations, determinants, inverses, and normalization."),f("add","add args...","Vector and matrix operations, determinants, inverses, and normalization."),f("subtract","subtract args...","Vector and matrix operations, determinants, inverses, and normalization."),f("scale","scale args...","Vector and matrix operations, determinants, inverses, and normalization."),f("identity","identity args...","Vector and matrix operations, determinants, inverses, and normalization."),f("determinant","determinant args...","Vector and matrix operations, determinants, inverses, and normalization."),f("inverse","inverse args...","Vector and matrix operations, determinants, inverses, and normalization."),f("norm","norm args...","Vector and matrix operations, determinants, inverses, and normalization."),f("normalize","normalize args...","Vector and matrix operations, determinants, inverses, and normalization.")],
-    example: "use linear\n\nsay linear.determinant [[2, 1], [1, 3]]"
+    example: "use linear\n\nsay linear.determinant [[2, 1], [1, 3]]\nsay linear.inverse [[2, 1], [1, 3]]"
   },
   dataset: {
     group: 'data', description: { en: 'Dataset column selection, filtering, uniqueness, and train/test splits.', zh: zh('Dataset column selection, filtering, uniqueness, and train/test splits.') },
     members: [f("row_count","row_count args...","Inspect, select, filter, de-duplicate, and split datasets."),f("select","select args...","Inspect, select, filter, de-duplicate, and split datasets."),f("describe","describe args...","Inspect, select, filter, de-duplicate, and split datasets."),f("train_test_split","train_test_split args...","Inspect, select, filter, de-duplicate, and split datasets."),f("columns","columns args...","Inspect, select, filter, de-duplicate, and split datasets."),f("filter_eq","filter_eq args...","Inspect, select, filter, de-duplicate, and split datasets."),f("unique","unique args...","Inspect, select, filter, de-duplicate, and split datasets."),f("split","split args...","Inspect, select, filter, de-duplicate, and split datasets.")],
-    example: "use dataset\n\nrows = [{name: \"Ada\", team: \"A\"}, {name: \"Lin\", team: \"B\"}]\nsay dataset.columns rows"
+    example: "use dataset\n\nrows = [{name: \"Ada\", team: \"A\"}, {name: \"Lin\", team: \"B\"}]\nsay dataset.describe rows"
   },
   http_server: {
     group: 'network', description: { en: 'HTTP application setup, middleware, static files, and responses.', zh: zh('HTTP application setup, middleware, static files, and responses.') },
     members: [f("get","get args...","HTTP handlers, response helpers, request access, and server startup."),f("post","post args...","HTTP handlers, response helpers, request access, and server startup."),f("put","put args...","HTTP handlers, response helpers, request access, and server startup."),f("patch","patch args...","HTTP handlers, response helpers, request access, and server startup."),f("delete","delete args...","HTTP handlers, response helpers, request access, and server startup."),f("listen","listen args...","HTTP handlers, response helpers, request access, and server startup."),f("text","text args...","HTTP handlers, response helpers, request access, and server startup."),f("json","json args...","HTTP handlers, response helpers, request access, and server startup."),f("response","response args...","HTTP handlers, response helpers, request access, and server startup."),f("method","method args...","HTTP handlers, response helpers, request access, and server startup."),f("path","path args...","HTTP handlers, response helpers, request access, and server startup."),f("query","query args...","HTTP handlers, response helpers, request access, and server startup."),f("body","body args...","HTTP handlers, response helpers, request access, and server startup."),f("header","header args...","HTTP handlers, response helpers, request access, and server startup."),f("param","param args...","HTTP handlers, response helpers, request access, and server startup."),f("route_count","route_count args...","HTTP handlers, response helpers, request access, and server startup.")],
-    example: "use http_server\n\napp = http_server.create \"demo\"\nhttp_server.listen app 8080"
+    example: "use http_server\n\nhttp_server.get \"/health\" handler\nhttp_server.listen 8080"
   },
   router: {
     group: 'network', description: { en: 'Independent route registration, matching, parameter extraction, and dispatch.', zh: zh('Independent route registration, matching, parameter extraction, and dispatch.') },
     members: [f("get","get args...","Focused route registration, request matching, dispatch, and parameter access."),f("post","post args...","Focused route registration, request matching, dispatch, and parameter access."),f("put","put args...","Focused route registration, request matching, dispatch, and parameter access."),f("delete","delete args...","Focused route registration, request matching, dispatch, and parameter access."),f("path","path args...","Focused route registration, request matching, dispatch, and parameter access."),f("param","param args...","Focused route registration, request matching, dispatch, and parameter access."),f("handle","handle args...","Focused route registration, request matching, dispatch, and parameter access."),f("handle_status","handle_status args...","Focused route registration, request matching, dispatch, and parameter access."),f("route_count","route_count args...","Focused route registration, request matching, dispatch, and parameter access.")],
-    example: "use router\n\nr = router.new\nrouter.get r \"/users/:id\" handler"
+    example: "use router\n\nrouter.get \"/users/:id\" handler\nsay router.route_count"
   },
   dns: {
     group: 'network', description: { en: 'Host and address lookup, reverse DNS, and IP validation.', zh: zh('Host and address lookup, reverse DNS, and IP validation.') },
@@ -718,73 +718,73 @@ const independentPackages: Record<string, Omit<SeModule, 'name'>> = {
   },
   gui: {
     group: "ecosystem", description: { en: "Compose and show a focused graphical interface from canvas controls.", zh: zh("Compose and show a focused graphical interface from canvas controls.") },
-    members: [f("new","new args...","Focused gui scene operation."),f("rect","rect args...","Focused gui scene operation."),f("circle","circle args...","Focused gui scene operation."),f("text","text args...","Focused gui scene operation."),f("show","show args...","Focused gui scene operation."),f("save","save args...","Focused gui scene operation."),f("html","html args...","Focused gui scene operation.")],
-    example: "use gui\n\nscene = game.new 640 360 \"Demo\"\ngui.new scene"
+    members: [f("new","new args...","Focused gui scene helper."),f("rect","rect args...","Focused gui scene helper."),f("circle","circle args...","Focused gui scene helper."),f("text","text args...","Focused gui scene helper."),f("show","show args...","Focused gui scene helper."),f("save","save args...","Focused gui scene helper."),f("html","html args...","Focused gui scene helper.")],
+    example: "use gui\n\nscene = gui.new 640 360 \"Interface\"\ngui.rect scene 20 20 160 48 \"#3344aa\" true"
   },
   window: {
     group: "ecosystem", description: { en: "Focused window operations for browser game scenes.", zh: zh("Focused window operations for browser game scenes.") },
-    members: [f("new","new args...","Focused window scene operation."),f("fullscreen","fullscreen args...","Focused window scene operation."),f("show","show args...","Focused window scene operation.")],
-    example: "use window\n\nscene = game.new 640 360 \"Demo\"\nwindow.new scene"
+    members: [f("new","new args...","Focused window scene helper."),f("fullscreen","fullscreen args...","Focused window scene helper."),f("show","show args...","Focused window scene helper.")],
+    example: "use window\n\nscene = window.new 640 360 \"Demo\"\nwindow.fullscreen scene"
   },
   canvas: {
     group: "ecosystem", description: { en: "Focused canvas operations for browser game scenes.", zh: zh("Focused canvas operations for browser game scenes.") },
-    members: [f("background","background args...","Focused canvas scene operation."),f("clear","clear args...","Focused canvas scene operation."),f("rect","rect args...","Focused canvas scene operation."),f("circle","circle args...","Focused canvas scene operation."),f("line","line args...","Focused canvas scene operation."),f("text","text args...","Focused canvas scene operation.")],
-    example: "use canvas\n\nscene = game.new 640 360 \"Demo\"\ncanvas.background scene"
+    members: [f("background","background args...","Focused canvas scene helper."),f("clear","clear args...","Focused canvas scene helper."),f("rect","rect args...","Focused canvas scene helper."),f("circle","circle args...","Focused canvas scene helper."),f("line","line args...","Focused canvas scene helper."),f("text","text args...","Focused canvas scene helper.")],
+    example: "use canvas\n\nscene = game.new 320 200 \"Canvas\"\ncanvas.background scene \"#112233\"\ncanvas.circle scene 80 80 30 \"orange\" true"
   },
   input: {
     group: "ecosystem", description: { en: "Focused input operations for browser game scenes.", zh: zh("Focused input operations for browser game scenes.") },
-    members: [f("key_move","key_move args...","Focused input scene operation."),f("follow_mouse","follow_mouse args...","Focused input scene operation.")],
-    example: "use input\n\nscene = game.new 640 360 \"Demo\"\ninput.key_move scene"
+    members: [f("key_move","key_move args...","Focused input scene helper."),f("follow_mouse","follow_mouse args...","Focused input scene helper.")],
+    example: "use input\n\nscene = game.new 640 360 \"Input\"\ninput.key_move scene \"player\" \"ArrowRight\" 4 0"
   },
   sprite: {
     group: "ecosystem", description: { en: "Focused sprite operations for browser game scenes.", zh: zh("Focused sprite operations for browser game scenes.") },
-    members: [f("image","image args...","Focused sprite scene operation."),f("sprite","sprite args...","Focused sprite scene operation."),f("sprite_color","sprite_color args...","Focused sprite scene operation."),f("position","position args...","Focused sprite scene operation."),f("move","move args...","Focused sprite scene operation."),f("velocity","velocity args...","Focused sprite scene operation."),f("animate","animate args...","Focused sprite scene operation.")],
-    example: "use sprite\n\nscene = game.new 640 360 \"Demo\"\nsprite.image scene"
+    members: [f("image","image args...","Focused sprite scene helper."),f("sprite","sprite args...","Focused sprite scene helper."),f("sprite_color","sprite_color args...","Focused sprite scene helper."),f("position","position args...","Focused sprite scene helper."),f("move","move args...","Focused sprite scene helper."),f("velocity","velocity args...","Focused sprite scene helper."),f("animate","animate args...","Focused sprite scene helper.")],
+    example: "use sprite\n\nscene = game.new 640 360 \"Sprites\"\nsprite.sprite scene \"hero\" \"hero.png\" 40 40 32 32"
   },
   physics: {
     group: "ecosystem", description: { en: "Focused physics operations for browser game scenes.", zh: zh("Focused physics operations for browser game scenes.") },
-    members: [f("velocity","velocity args...","Focused physics scene operation."),f("rect_hit","rect_hit args...","Focused physics scene operation."),f("circle_hit","circle_hit args...","Focused physics scene operation."),f("distance","distance args...","Focused physics scene operation."),f("vector","vector args...","Focused physics scene operation."),f("particles","particles args...","Focused physics scene operation."),f("camera","camera args...","Focused physics scene operation.")],
-    example: "use physics\n\nscene = game.new 640 360 \"Demo\"\nphysics.velocity scene"
+    members: [f("velocity","velocity args...","Focused physics scene helper."),f("rect_hit","rect_hit args...","Focused physics scene helper."),f("circle_hit","circle_hit args...","Focused physics scene helper."),f("distance","distance args...","Focused physics scene helper."),f("vector","vector args...","Focused physics scene helper."),f("particles","particles args...","Focused physics scene helper."),f("camera","camera args...","Focused physics scene helper.")],
+    example: "use physics\n\nscene = game.new 640 360 \"Physics\"\nphysics.velocity scene \"hero\" 3 0\nsay physics.distance 0 0 3 4"
   },
   sound: {
     group: "ecosystem", description: { en: "Focused sound operations for browser game scenes.", zh: zh("Focused sound operations for browser game scenes.") },
-    members: [f("sound","sound args...","Focused sound scene operation."),f("play","play args...","Focused sound scene operation."),f("stop","stop args...","Focused sound scene operation.")],
-    example: "use sound\n\nscene = game.new 640 360 \"Demo\"\nsound.sound scene"
+    members: [f("sound","sound args...","Focused sound scene helper."),f("play","play args...","Focused sound scene helper."),f("stop","stop args...","Focused sound scene helper.")],
+    example: "use sound\n\nscene = game.new 640 360 \"Sound\"\nsound.sound scene \"theme\" \"theme.ogg\"\nsound.play scene \"theme\" true 0.7"
   },
   keyboard: {
     group: "ecosystem", description: { en: "Focused keyboard operations for browser game scenes.", zh: zh("Focused keyboard operations for browser game scenes.") },
-    members: [f("key_move","key_move args...","Focused keyboard scene operation.")],
-    example: "use keyboard\n\nscene = game.new 640 360 \"Demo\"\nkeyboard.key_move scene"
+    members: [f("key_move","key_move args...","Focused keyboard scene helper.")],
+    example: "use keyboard\n\nscene = game.new 640 360 \"Keyboard\"\nkeyboard.key_move scene \"player\" \"ArrowLeft\" -4 0"
   },
   mouse: {
     group: "ecosystem", description: { en: "Focused mouse operations for browser game scenes.", zh: zh("Focused mouse operations for browser game scenes.") },
-    members: [f("follow_mouse","follow_mouse args...","Focused mouse scene operation."),f("camera","camera args...","Focused mouse scene operation.")],
-    example: "use mouse\n\nscene = game.new 640 360 \"Demo\"\nmouse.follow_mouse scene"
+    members: [f("follow_mouse","follow_mouse args...","Focused mouse scene helper."),f("camera","camera args...","Focused mouse scene helper.")],
+    example: "use mouse\n\nscene = game.new 640 360 \"Pointer\"\nmouse.follow_mouse scene \"cursor\""
   },
   animation: {
     group: "ecosystem", description: { en: "Focused animation operations for browser game scenes.", zh: zh("Focused animation operations for browser game scenes.") },
-    members: [f("animate","animate args...","Focused animation scene operation."),f("move","move args...","Focused animation scene operation."),f("velocity","velocity args...","Focused animation scene operation.")],
-    example: "use animation\n\nscene = game.new 640 360 \"Demo\"\nanimation.animate scene"
+    members: [f("animate","animate args...","Focused animation scene helper."),f("move","move args...","Focused animation scene helper."),f("velocity","velocity args...","Focused animation scene helper.")],
+    example: "use animation\n\nscene = game.new 640 360 \"Animation\"\nanimation.animate scene 60"
   },
   scene: {
     group: "ecosystem", description: { en: "Focused scene operations for browser game scenes.", zh: zh("Focused scene operations for browser game scenes.") },
-    members: [f("new","new args...","Focused scene scene operation."),f("background","background args...","Focused scene scene operation."),f("clear","clear args...","Focused scene scene operation."),f("html","html args...","Focused scene scene operation."),f("save","save args...","Focused scene scene operation."),f("show","show args...","Focused scene scene operation.")],
-    example: "use scene\n\nscene = game.new 640 360 \"Demo\"\nscene.new scene"
+    members: [f("new","new args...","Focused scene scene helper."),f("background","background args...","Focused scene scene helper."),f("clear","clear args...","Focused scene scene helper."),f("html","html args...","Focused scene scene helper."),f("save","save args...","Focused scene scene helper."),f("show","show args...","Focused scene scene helper.")],
+    example: "use scene\n\nlevel = scene.new 640 360 \"Level 1\"\nscene.background level \"#203040\""
   },
   collision: {
     group: "ecosystem", description: { en: "Focused collision operations for browser game scenes.", zh: zh("Focused collision operations for browser game scenes.") },
-    members: [f("rect_hit","rect_hit args...","Focused collision scene operation."),f("circle_hit","circle_hit args...","Focused collision scene operation."),f("distance","distance args...","Focused collision scene operation."),f("vector","vector args...","Focused collision scene operation.")],
-    example: "use collision\n\nscene = game.new 640 360 \"Demo\"\ncollision.rect_hit scene"
+    members: [f("rect_hit","rect_hit args...","Focused collision scene helper."),f("circle_hit","circle_hit args...","Focused collision scene helper."),f("distance","distance args...","Focused collision scene helper."),f("vector","vector args...","Focused collision scene helper.")],
+    example: "use collision\n\nsay collision.rect_hit 0 0 20 20 15 15 20 20"
   },
   image: {
     group: "ecosystem", description: { en: "Focused image operations for browser game scenes.", zh: zh("Focused image operations for browser game scenes.") },
-    members: [f("image","image args...","Focused image scene operation."),f("sprite","sprite args...","Focused image scene operation.")],
-    example: "use image\n\nscene = game.new 640 360 \"Demo\"\nimage.image scene"
+    members: [f("image","image args...","Focused image scene helper."),f("sprite","sprite args...","Focused image scene helper.")],
+    example: "use image\n\nscene = game.new 640 360 \"Images\"\nimage.image scene \"icon.png\" 10 10 64 64"
   },
   audio: {
     group: "ecosystem", description: { en: "Focused audio operations for browser game scenes.", zh: zh("Focused audio operations for browser game scenes.") },
-    members: [f("sound","sound args...","Focused audio scene operation."),f("play","play args...","Focused audio scene operation."),f("stop","stop args...","Focused audio scene operation.")],
-    example: "use audio\n\nscene = game.new 640 360 \"Demo\"\naudio.sound scene"
+    members: [f("sound","sound args...","Focused audio scene helper."),f("play","play args...","Focused audio scene helper."),f("stop","stop args...","Focused audio scene helper.")],
+    example: "use audio\n\nscene = game.new 640 360 \"Audio\"\naudio.sound scene \"track\" \"theme.ogg\"\naudio.play scene \"track\" true 0.8"
   }
 };
 Object.assign(base, independentPackages);
