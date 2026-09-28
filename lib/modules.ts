@@ -193,7 +193,7 @@ const base: Record<string, Omit<SeModule, 'name'>> = {
   file: {
     group: 'io', description: { en: 'File reading, writing, copy, move, and directory helpers.', zh: '檔案讀寫、複製、移動與目錄操作。' },
     members: [f('read','read path','Read a file. Fallible.'),f('write','write path text','Write a file. Fallible.'),f('append','append path text','Append Text to a file. Fallible.'),f('open','open path','Open a file handle. Fallible.'),f('copy','copy source target','Copy a file. Fallible.'),f('move','move source target','Move or rename a path. Fallible.'),f('copytree','copytree source target','Recursively copy a directory. Fallible.'),f('remove','remove path','Remove a file or directory tree. Fallible.'),f('mkdir','mkdir path','Create directories. Fallible.')],
-    example: 'use file\n\ntext = try file.read "notes.txt"\nsay text\ntry file.write "copy.txt" text'
+    example: 'use file\n\ntry file.write "notes.txt" "Hello from SE"\ntext = try file.read "notes.txt"\nsay text\ntry file.write "copy.txt" text'
   },
   path: {
     group: 'io', description: { en: 'Filesystem path helpers.', zh: '檔案系統路徑處理工具。' },
@@ -243,7 +243,7 @@ const base: Record<string, Omit<SeModule, 'name'>> = {
   test: {
     group: 'testing', description: { en: 'Assertions for SE tests.', zh: 'SE 測試 assertion。' },
     members: [f('ok','ok condition','Assert a Bool is true.'),f('equal','equal actual expected','Assert two values are equal.'),f('not_equal','not_equal actual expected','Assert two values differ.'),f('fail','fail message','Fail a test explicitly.')],
-    example: 'use test\n\ntest.equal 4 2 + 2\ntest.ok true\ntest.not_equal "SE" "Python"'
+    example: 'use test\n\ntest.equal 4 (2 + 2)\ntest.ok true\ntest.not_equal "SE" "Python"'
   },
   process: {
     group: 'io', description: { en: 'External process execution.', zh: '外部 process 執行。' },
@@ -278,12 +278,12 @@ const base: Record<string, Omit<SeModule, 'name'>> = {
   async: {
     group: 'concurrency', description: { en: 'Managed asynchronous tasks.', zh: 'Managed asynchronous task。' },
     members: [f('run','run function args...','Start a managed task.'),f('await','await task','Wait for a managed task. Fallible.'),f('ready','ready task','Check whether a task is complete.')],
-    example: 'use async\n\njob = async.run work 21\nanswer = try async.await job\nsay answer'
+    example: 'use async\n\nmake work value\n    give value * 2\n\njob = async.run work 21\nanswer = try async.await job\nsay answer'
   },
   threading: {
     group: 'concurrency', description: { en: 'Managed worker tasks.', zh: 'Managed worker task。' },
     members: [f('run','run function args...','Start a managed worker task.'),f('join','join task','Wait for a managed worker task. Fallible.'),f('ready','ready task','Check whether a worker task is complete.')],
-    example: 'use threading\n\nworker = threading.run work 21\nanswer = try threading.join worker\nsay answer'
+    example: 'use threading\n\nmake work value\n    give value * 2\n\nworker = threading.run work 21\nanswer = try threading.join worker\nsay answer'
   },
   option: {
     group: 'safety', description: { en: 'Optional-value helpers.', zh: 'Optional value 工具。' },
@@ -298,7 +298,7 @@ const base: Record<string, Omit<SeModule, 'name'>> = {
   match: {
     group: 'safety', description: { en: 'Functional matching helpers.', zh: '函式式 matching 工具。' },
     members: [f('value','value subject pattern handler ... fallback','Match values with handler functions.'),f('option','option option some_handler none_handler','Match an Option.'),f('result','result result ok_handler error_handler','Match a Result.')],
-    example: 'use match\nuse option\n\nvalue = option.some 5\nanswer = match.option value on_some on_none\nsay answer'
+    example: 'use match\nuse option\n\nmake on_some value\n    give value * 2\n\nmake on_none value\n    give 0\n\noption_value = option.some 5\nanswer = match.option option_value on_some on_none\nsay answer'
   },
   db: {
     group: 'database', description: { en: 'Local key/value database.', zh: '本機 key/value 資料庫。' },
@@ -408,7 +408,7 @@ const base: Record<string, Omit<SeModule, 'name'>> = {
   shutil: {
     group: 'io', description: { en: 'Filesystem copy/move helpers.', zh: '檔案系統複製與移動工具。' },
     members: [f('copy','copy source target','Copy a file. Fallible.'),f('move','move source target','Move or rename a path. Fallible.'),f('copytree','copytree source target','Recursively copy a directory. Fallible.'),f('remove','remove path','Remove a path tree. Fallible.'),f('mkdir','mkdir path','Create directories. Fallible.')],
-    example: 'use shutil\n\ntry shutil.mkdir "backup"\ntry shutil.copy "app.se" "backup/app.se"'
+    example: 'use shutil\n\ntry file.write "app.se" "say \\\"SE\\\""\ntry shutil.mkdir "backup"\ntry shutil.copy "app.se" "backup/app.se"\nsay path.exists "backup/app.se"'
   },
   glob: {
     group: 'io', description: { en: 'Filesystem wildcard matching.', zh: '檔案系統 wildcard matching。' },
