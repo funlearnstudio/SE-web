@@ -34,9 +34,33 @@ type ExecContext = {
 
 const MAX_STEPS = 12000;
 
+function stripComment(line: string): string {
+  let quote = '';
+  let escaped = false;
+
+  for (let i = 0; i < line.length; i += 1) {
+    const char = line[i];
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+    if (char === '\\' && quote) {
+      escaped = true;
+      continue;
+    }
+    if ((char === '"' || char === "'") && (!quote || quote === char)) {
+      quote = quote ? '' : char;
+      continue;
+    }
+    if (char === '#' && !quote) return line.slice(0, i);
+  }
+
+  return line;
+}
+
 function cleanSource(source: string): SourceLine[] {
   return source.split(/\r?\n/).map((raw, index) => {
-    const expanded = raw.replace(/\t/g, '    ');
+    const expanded = stripComment(raw.replace(/\t/g, '    '));
     const match = expanded.match(/^(\s*)/);
     return { text: expanded.trim(), indent: match ? match[1].length : 0, line: index + 1 };
   });
