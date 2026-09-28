@@ -88,20 +88,6 @@ export default function PlaygroundPage() {
           <button key={example.name} className={index === active ? 'example-tab active' : 'example-tab'} onClick={() => load(index)}>{example.name}</button>
         ))}
       </div>
-      <section className="module-picker">
-        <div className="section-heading">
-          <div><span className="eyebrow">MODULE LIBRARY</span><h2>{zh ? `模組快速匯入（${modules.length}）` : `Import a module (${modules.length})`}</h2></div>
-          <input className="search-input" value={moduleSearch} onChange={(event) => setModuleSearch(event.target.value)} placeholder={zh ? '搜尋模組' : 'Search modules'} aria-label={zh ? '搜尋模組' : 'Search modules'} />
-        </div>
-        <div className="module-grid">
-          {filteredModules.map((item) => (
-            <button type="button" key={item.name} className="module-card" onClick={() => insertModule(item.name)} title={zh ? '加入 use 匯入' : 'Insert use import'}>
-              <span className="module-card-top"><code>{item.name}</code><span className="badge">{zh ? '加入' : 'Add'}</span></span>
-              <p>{zh ? item.description.zh : item.description.en}</p>
-            </button>
-          ))}
-        </div>
-      </section>
       <div className="playground-shell">
         <section className="editor-pane">
           <div className="playground-toolbar">
@@ -123,6 +109,20 @@ export default function PlaygroundPage() {
           </div>
         </section>
       </div>
+      <section className="module-picker">
+        <div className="section-heading">
+          <div><span className="eyebrow">MODULE LIBRARY</span><h2>{zh ? `模組快速匯入（${modules.length}）` : `Import a module (${modules.length})`}</h2></div>
+          <input className="search-input" value={moduleSearch} onChange={(event) => setModuleSearch(event.target.value)} placeholder={zh ? '搜尋模組' : 'Search modules'} aria-label={zh ? '搜尋模組' : 'Search modules'} />
+        </div>
+        <div className="module-grid">
+          {filteredModules.map((item) => (
+            <button type="button" key={item.name} className="module-card" onClick={() => insertModule(item.name)} title={zh ? '加入 use 匯入' : 'Insert use import'}>
+              <span className="module-card-top"><code>{item.name}</code><span className="badge">{zh ? '加入' : 'Add'}</span></span>
+              <p>{zh ? item.description.zh : item.description.en}</p>
+            </button>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
