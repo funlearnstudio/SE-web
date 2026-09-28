@@ -251,6 +251,27 @@ function moduleCall(moduleName: string, member: string, args: unknown[]): unknow
     random: { int: (a,b) => Math.floor(Math.random() * (Number(b)-Number(a)+1)) + Number(a), num: () => Math.random() },
     base64: { encode: (v) => btoa(unescape(encodeURIComponent(text(v)))), decode: (v) => decodeURIComponent(escape(atob(text(v)))) },
     uuid: { v4: () => crypto.randomUUID(), valid: (v) => /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(text(v)) },
+    re: {
+      find_all: (pattern, value) => Array.from(text(value).matchAll(new RegExp(text(pattern), 'g')), (m) => m[0]),
+      count: (pattern, value) => Array.from(text(value).matchAll(new RegExp(text(pattern), 'g'))).length,
+      escape: (value) => [...text(value)].map((ch) => '.^$*+?()[]{}|\\'.includes(ch) ? '\\' + ch : ch).join(''),
+      groups: (pattern, value) => { const m = text(value).match(new RegExp(text(pattern))); return m ? m.slice(1) : []; },
+      match: (pattern, value) => new RegExp('^(?:' + text(pattern) + ')').test(text(value)),
+      search: (pattern, value) => new RegExp(text(pattern)).test(text(value)),
+      replace: (value, pattern, replacement) => text(value).replace(new RegExp(text(pattern), 'g'), text(replacement)),
+      split: (pattern, value) => text(value).split(new RegExp(text(pattern)))
+    },
+    itertools: {
+      chain: (...lists) => lists.flatMap((v) => Array.isArray(v) ? v : []),
+      flatten: (v) => Array.isArray(v) ? v.flat(1) : [],
+      chunked: (v, n) => { const xs = Array.isArray(v) ? v : []; const size = Math.floor(Number(n)); if (size < 1) throw new Error('Chunk size must be positive.'); return Array.from({length: Math.ceil(xs.length / size)}, (_, i) => xs.slice(i * size, (i + 1) * size)); },
+      take: (v, n) => Array.isArray(v) ? v.slice(0, Number(n)) : [],
+      drop: (v, n) => Array.isArray(v) ? v.slice(Number(n)) : [],
+      windows: (v, n) => { const xs = Array.isArray(v) ? v : []; const size = Math.floor(Number(n)); if (size < 1) throw new Error('Window size must be positive.'); return Array.from({length: Math.max(0, xs.length - size + 1)}, (_, i) => xs.slice(i, i + size)); },
+      cycle: (v, n) => Array.isArray(v) ? Array.from({length: Math.max(0, Math.floor(Number(n)))}, () => v).flat() : [],
+      pairs: (v) => Array.isArray(v) ? v.slice(1).map((x, i) => [v[i], x]) : [],
+      unique: (v) => Array.isArray(v) ? [...new Set(v)] : []
+    },
     iter: {
       range: (...v) => v.length === 1 ? range(0, Number(v[0]) - 1) : range(Number(v[0]), Number(v[1]), v[2] === undefined ? 1 : Number(v[2])),
       enumerate: (v) => Array.isArray(v) ? v.map((x,i)=>[i,x]) : [],
@@ -260,8 +281,6 @@ function moduleCall(moduleName: string, member: string, args: unknown[]): unknow
     result: { ok: (v) => ({ ok: true, value: v }), err: (v) => ({ ok: false, error: text(v) }), is_ok: (v) => Boolean((v as {ok?:boolean})?.ok), is_err: (v) => !Boolean((v as {ok?:boolean})?.ok), value: (v) => (v as {value?:unknown})?.value, error: (v) => (v as {error?:unknown})?.error, or: (v,f) => (v as {ok?:boolean;value?:unknown})?.ok ? (v as {value?:unknown}).value : f },
     typing: { type_of: (v) => Array.isArray(v) ? 'List' : v === null ? 'None' : typeof v === 'number' ? (Number.isInteger(v) ? 'Int' : 'Num') : typeof v === 'string' ? 'Text' : typeof v === 'boolean' ? 'Bool' : 'Map', is: (v,t) => moduleCall('typing','type_of',[v]) === t, cast: (v) => v }
   };
-  const aliases: Record<string,string> = { re:'regex', itertools:'iter', hashlib:'hash', argparse:'args', logging:'log', zipfile:'zip', sqlite3:'sqlite' };
-  moduleName = aliases[moduleName] ?? moduleName;
   if (moduleName === 'math' && member === 'pi') return Math.PI;
   if (moduleName === 'math' && member === 'e') return Math.E;
   if (moduleName === 'math' && member === 'tau') return Math.PI * 2;
@@ -333,7 +352,7 @@ function evaluateExpression(expr: string, env: Env, context: ExecContext): unkno
   const moduleMatch = expr.match(/^([A-Za-z_]\w*)\.([A-Za-z_]\w*)(?:\s+([\s\S]*))?$/);
   if (moduleMatch) {
     const [, moduleName, member, rest = ''] = moduleMatch;
-    const knownModuleNames = ['math','statistics','text','collections','json','random','base64','uuid','iter','itertools','option','result','typing'];
+    const knownModuleNames = ['math','statistics','text','collections','json','random','base64','uuid','iter','itertools','re','option','result','typing'];
     if (knownModuleNames.includes(moduleName)) {
       const args = rest ? splitArgs(rest).map((arg) => evaluateExpression(arg, env, context)) : [];
       return moduleCall(moduleName, member, args);

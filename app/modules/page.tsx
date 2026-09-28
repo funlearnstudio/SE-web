@@ -12,11 +12,8 @@ export default function ModulesPage() {
       <PageIntro
         eyebrow="SE STANDARD LIBRARY"
         title={zh ? '117 個 Built-in Modules' : '117 built-in modules'}
-        description={zh ? '目前 SE 可直接 use 的 117 個 module 名稱。包含 28 個相容 alias；每個頁面列出 API、signature、用途與快速範例。別名包含：re→regex、itertools→iter、hashlib→hash、argparse→args、logging→log、zipfile→zip、sqlite3→sqlite、config→dotenv、series→array、linear→matrix、dataset→table、http_server／router→web、dns→socket，以及 gui、window、canvas、input、sprite、physics、sound、keyboard、mouse、animation、scene、collision、image、audio→game。' : 'The 117 module names currently available through use. Twenty-eight are compatibility aliases; every page includes API signatures, descriptions, and a quick-start example.'}
+        description={zh ? '目前有 117 個可直接 use 的模組。每個擴充包都有自己的 API 參考與快速範例。' : 'The 117 modules currently available through use. Each package has its own API reference and quick-start example.'}
       />
-      <div className="notice">
-        {zh ? '117 個名稱中有 28 個 alias：re→regex、itertools→iter、hashlib→hash、argparse→args、logging→log、zipfile→zip、sqlite3→sqlite。' : 'Twenty-eight names are compatibility aliases. Aliases include re→regex, itertools→iter, hashlib→hash, argparse→args, logging→log, zipfile→zip, sqlite3→sqlite, config→dotenv, series→array, linear→matrix, dataset→table, http_server/router→web, dns→socket, and gui, window, canvas, input, sprite, physics, sound, keyboard, mouse, animation, scene, collision, image, and audio→game.'}
-      </div>
       <div style={{ paddingBottom: 72 }}>
         <ModulesDirectory />
       </div>

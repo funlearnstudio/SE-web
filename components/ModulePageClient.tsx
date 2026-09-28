@@ -12,15 +12,10 @@ export function ModulePageClient({ module }: { module: SeModule }) {
   return (
     <div className="container">
       <PageIntro
-        eyebrow={`${groupInfo[module.group][language]} · ${module.aliasFor ? 'ALIAS' : 'BUILT-IN MODULE'}`}
+        eyebrow={`${groupInfo[module.group][language]} · BUILT-IN MODULE`}
         title={module.name}
         description={module.description[language]}
       />
-      {module.aliasFor ? (
-        <div className="notice">
-          {zh ? <>{module.name} 是 <Link href={`/modules/${module.aliasFor}`}><strong>{module.aliasFor}</strong></Link> 的 alias，兩者共用同一組 API。</> : <>{module.name} is an alias of <Link href={`/modules/${module.aliasFor}`}><strong>{module.aliasFor}</strong></Link> and shares the same API.</>}
-        </div>
-      ) : null}
       <div className="module-doc">
         <section className="module-api">
           <h2>{zh ? '快速開始' : 'Quick start'}</h2>
