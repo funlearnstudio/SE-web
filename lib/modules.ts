@@ -663,7 +663,7 @@ const independentPackages: Record<string, Omit<SeModule, 'name'>> = {
   },
   argparse: {
     group: 'io', description: { en: 'Declarative command-line argument parsing and generated help.', zh: zh('Declarative command-line argument parsing and generated help.') },
-    members: [f("parse_args","parse_args args...","Parse CLI options, retrieve values and flags, and print usage help."),f("get","get args...","Parse CLI options, retrieve values and flags, and print usage help."),f("flag","flag args...","Parse CLI options, retrieve values and flags, and print usage help."),f("help","help args...","Parse CLI options, retrieve values and flags, and print usage help.")],
+    members: [f("parse_args","parse_args args...","Parse CLI options, retrieve values and flags, and print usage help."),f("get","get args...","Parse CLI options, retrieve values and flags, and print usage help."),f("flag","flag args...","Parse CLI options, retrieve values and flags, and print usage help."),f("help","help args...","Parse CLI options, retrieve values and flags, and print usage help."),f("has","has args...","Parse CLI options, retrieve values and flags, and print usage help."),f("positionals","positionals args...","Parse CLI options, retrieve values and flags, and print usage help."),f("get_int","get_int args...","Parse CLI options, retrieve values and flags, and print usage help."),f("require","require args...","Parse CLI options, retrieve values and flags, and print usage help.")],
     example: "use argparse\n\noptions = argparse.parse_args [\"--mode\", \"fast\", \"--verbose\"]\nsay argparse.get options \"mode\"\nsay argparse.flag options \"verbose\""
   },
   logging: {
