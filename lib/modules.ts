@@ -692,7 +692,12 @@ function aliasModule(name: string, target: string): SeModule {
   };
 }
 
-const helpMember = f('help', 'help', 'Show this module\'s available members and descriptions.', 'value');
+const helpMember: ModuleMember = {
+  name: 'help',
+  usage: 'help',
+  kind: 'value',
+  description: { en: "Show this module's available members and descriptions.", zh: '顯示此模組可用成員的說明。' }
+};
 
 export const modules: SeModule[] = moduleOrder.map((name) => {
   if (aliases[name]) return { ...aliasModule(name, aliases[name]), members: [helpMember, ...aliasModule(name, aliases[name]).members] };
