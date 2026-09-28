@@ -7,8 +7,8 @@ A multi-page Next.js documentation website for the SE programming language.
 - Light-purple, documentation-first design inspired by the clarity of Python.org and modern product sites.
 - English-first UI with a persistent Traditional Chinese toggle.
 - Full core syntax curriculum split into 24 lesson pages.
-- All 59 currently importable built-in module names, including 7 aliases.
-- A dedicated module page with API signatures and a quick-start example for every module.
+- All 117 currently importable built-in module names, including 28 compatibility aliases.
+- A dedicated module page with API signatures and a quick-start example for every module, including the current collections helpers and game-scene APIs.
 - SE Web 0.8 and Browser API guide.
 - Browser-only SE core playground simulator.
 - Installation and CLI workflow pages.
@@ -45,4 +45,4 @@ The `/playground` page is a browser simulator for core learning syntax. It does 
 
 ## Source alignment
 
-The content is based on the current `funlearnstudio/SE` main documentation and the VS Code `language-data.js` module list. Core release content is labeled SE 0.7.0; SE Web / Browser API content is labeled separately as 0.8 documentation.
+The built-in module list and API catalog track the current `funlearnstudio/SE` main branch and its VS Code `language-data.js` definitions. The site documents 117 importable module names, including compatibility aliases. Core release content is labeled SE 0.7.0; SE Web / Browser API content is labeled separately as 0.8 documentation.
