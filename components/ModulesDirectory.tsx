@@ -41,7 +41,7 @@ export function ModulesDirectory() {
           <Link href={`/modules/${module.name}`} className="module-card" key={module.name}>
             <div className="module-card-top">
               <code>{module.name}</code>
-              {module.aliasFor ? <span className="badge">alias → {module.aliasFor}</span> : <span className="badge">{groupInfo[module.group][language]}</span>}
+              <span className="badge">{groupInfo[module.group][language]}</span>
             </div>
             <p>{module.description[language]}</p>
             <div className="module-meta"><span>{module.members.length} API</span><span>·</span><span>use {module.name}</span></div>
