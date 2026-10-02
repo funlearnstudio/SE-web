@@ -1,10 +1,58 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { PageIntro } from '@/components/PageIntro';
 import { useLanguage } from '@/components/LanguageProvider';
 import { runSeSimulation } from '@/lib/simulator';
 import { modules } from '@/lib/modules';
+
+const SE_KEYWORDS = new Set('if else match case try for in while repeat give fail wait await and or not use make type html css js style when page native'.split(' '));
+const SE_TYPES = new Set('Int Num Text Bool Bytes List Map Set Function Unknown Option Result Task'.split(' '));
+const SE_BUILTINS = new Set('say ask set bytes int integer num double float text string bool boolean char'.split(' '));
+const SE_CONSTANTS = new Set(['true', 'false', 'none']);
+const SE_MODULES = new Set(modules.map((item) => item.name));
+
+function escapeHtml(value: string) {
+  return value.replace(/[&<>]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[char] || char));
+}
+
+function highlightSe(source: string) {
+  let html = '';
+  let index = 0;
+  let declaration: 'function' | 'type' | null = null;
+  const push = (kind: string, value: string) => { html += `<span class="se-token se-${kind}">${escapeHtml(value)}</span>`; };
+
+  while (index < source.length) {
+    const rest = source.slice(index);
+    const comment = rest.match(/^#[^\n]*/);
+    if (comment) { push('comment', comment[0]); index += comment[0].length; continue; }
+    const string = rest.match(/^"(?:\\.|[^"\\])*"?/);
+    if (string) { push('string', string[0]); index += string[0].length; continue; }
+    const number = rest.match(/^\d+(?:\.\d+)?(?:[eE][+-]?\d+)?(?:ms|s|min)?\b/);
+    if (number) { push('number', number[0]); index += number[0].length; continue; }
+    const word = rest.match(/^[A-Za-z_][A-Za-z0-9_]*/);
+    if (word) {
+      const value = word[0];
+      if (declaration) { push(declaration === 'function' ? 'function' : 'type-name', value); declaration = null; }
+      else if (SE_CONSTANTS.has(value)) push('constant', value);
+      else if (SE_TYPES.has(value)) push('type', value);
+      else if (SE_BUILTINS.has(value)) push('builtin', value);
+      else if (SE_MODULES.has(value)) push('module', value);
+      else if (SE_KEYWORDS.has(value)) { push('keyword', value); if (value === 'make') declaration = 'function'; if (value === 'type') declaration = 'type'; }
+      else {
+        const previous = source[index - 1];
+        push(previous === '.' ? 'member' : 'plain', value);
+      }
+      index += value.length;
+      continue;
+    }
+    const operator = rest.match(/^(?:\+=|-=|\*=|\/=|%=|==|!=|<=|>=|\.\.|->|[=+\-*\/%<>:])/);
+    if (operator) { push('operator', operator[0]); index += operator[0].length; continue; }
+    html += escapeHtml(source[index]);
+    index += 1;
+  }
+  return html + (source.endsWith('\n') ? ' ' : '');
+}
 
 const examples = [
   {
@@ -56,6 +104,8 @@ export default function PlaygroundPage() {
   const [code, setCode] = useState(examples[0].code);
   const [moduleSearch, setModuleSearch] = useState('');
   const [output, setOutput] = useState('Click Run to execute the browser simulation.');
+  const highlightRef = useRef<HTMLPreElement>(null);
+  const highlightedCode = useMemo(() => highlightSe(code), [code]);
   const filteredModules = useMemo(() => modules.filter((item) => item.name.includes(moduleSearch.toLowerCase()) || item.description.en.toLowerCase().includes(moduleSearch.toLowerCase())), [moduleSearch]);
 
   const run = () => {
@@ -97,7 +147,21 @@ export default function PlaygroundPage() {
               <button className="run-button" onClick={run}>▶ {zh ? '執行' : 'Run'}</button>
             </div>
           </div>
-          <textarea className="code-editor" spellCheck={false} value={code} onChange={(event) => setCode(event.target.value)} aria-label="SE code editor" />
+          <div className="code-editor-wrap">
+            <pre ref={highlightRef} className="code-highlight" aria-hidden="true" dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+            <textarea
+              className="code-editor"
+              spellCheck={false}
+              value={code}
+              onChange={(event) => setCode(event.target.value)}
+              onScroll={(event) => {
+                if (!highlightRef.current) return;
+                highlightRef.current.scrollTop = event.currentTarget.scrollTop;
+                highlightRef.current.scrollLeft = event.currentTarget.scrollLeft;
+              }}
+              aria-label="SE code editor"
+            />
+          </div>
         </section>
         <section className="output-pane">
           <div className="playground-toolbar"><strong>{zh ? '輸出' : 'Output'}</strong><span className="badge">browser simulator</span></div>
