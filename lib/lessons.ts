@@ -38,9 +38,9 @@ export const syntaxLessons: Lesson[] = [
     summary: { en: 'Use say for output and ask for simple interactive text input.', zh: '使用 say 輸出，使用 ask 取得互動式文字輸入。' },
     details: [
       { en: '`ask` returns Text.', zh: '`ask` 會回傳 Text。' },
-      { en: 'Text can be combined with +.', zh: 'Text 可使用 + 串接。' }
+      { en: 'When either side of + is Text, SE converts the other printable value to Text and concatenates it.', zh: '+ 的任一側是 Text 時，SE 會把另一個可顯示的值轉成文字後串接。' }
     ],
-    code: 'name = ask "Your name?"\nsay "Hello " + name'
+    code: 'name = ask "Your name?"\nage = 15\nsay "Hello " + name\nsay "Age: " + age'
   },
   {
     slug: 'literals', order: 4,
@@ -90,7 +90,7 @@ export const syntaxLessons: Lesson[] = [
     summary: { en: 'Create functions with make and return values with give. Calls normally omit parentheses.', zh: '使用 make 建立函式，以 give 回傳。一般呼叫不需要括號。' },
     details: [
       { en: 'Functions are values and can form closures.', zh: '函式本身也是值，也能形成 closure。' },
-      { en: 'Low-punctuation calls are a core SE design rule.', zh: '低標點函式呼叫是 SE 的核心設計。' }
+      { en: 'Low-punctuation calls are a core SE design rule.', zh: '低標點函式呼叫是 SE 的核心設計。' },\n      { en: 'In SE 0.7.5, arithmetic can be part of a bare-call argument: `fib a-1 + fib a-2` calls `fib` with `a - 1` and `a - 2`.', zh: 'SE 0.7.5 支援在無括號呼叫參數中直接寫算術：`fib a-1 + fib a-2` 會以 `a - 1` 與 `a - 2` 分別呼叫 `fib`。' }
     ],
     code: 'make add a b\n    give a + b\n\nsay add 5 3\n\nmake make_adder base\n    make inner value\n        give base + value\n    give inner\n\nadd10 = make_adder 10\nsay add10 5'
   },
