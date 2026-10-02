@@ -220,7 +220,24 @@ main { min-height: calc(100vh - 250px); }
 .editor-actions { display: flex; gap: 7px; }
 .run-button { border: 0; background: var(--purple); color: white; border-radius: 9px; padding: 7px 12px; font-size: 12px; font-weight: 750; cursor: pointer; }
 .reset-button { border: 1px solid #4b4559; background: transparent; color: #c9c0d6; border-radius: 9px; padding: 6px 10px; font-size: 12px; cursor: pointer; }
-.code-editor { flex: 1; resize: none; width: 100%; border: 0; outline: none; background: transparent; color: #f4effb; padding: 18px 20px; font: 13px/1.7 var(--font-mono); tab-size: 4; }
+.code-editor-wrap { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #1f1c29; }
+.code-editor, .code-highlight { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; border: 0; padding: 18px 20px; font: 13px/1.7 var(--font-mono); tab-size: 4; white-space: pre; overflow: auto; }
+.code-highlight { pointer-events: none; color: #d4d4d4; background: transparent; scrollbar-width: none; }
+.code-highlight::-webkit-scrollbar { display: none; }
+.code-editor { resize: none; outline: none; background: transparent; color: transparent; caret-color: #f4effb; -webkit-text-fill-color: transparent; }
+.code-editor::selection { background: rgba(117, 101, 170, .55); -webkit-text-fill-color: transparent; }
+.se-comment { color: #6a9955; }
+.se-string { color: #ce9178; }
+.se-number { color: #b5cea8; }
+.se-keyword { color: #c586c0; }
+.se-constant { color: #569cd6; }
+.se-type, .se-type-name { color: #4ec9b0; }
+.se-function { color: #dcdcaa; }
+.se-builtin { color: #dcdcaa; }
+.se-module { color: #4fc1ff; }
+.se-member { color: #9cdcfe; }
+.se-operator { color: #d4d4d4; }
+.se-plain { color: #d4d4d4; }
 .output-console { flex: 1; margin: 0; padding: 18px 20px; overflow: auto; color: #282231; font: 13px/1.7 var(--font-mono); white-space: pre-wrap; }
 .playground-note { padding: 12px 15px; background: #f2eefb; border-top: 1px solid var(--line); color: #6b637a; font-size: 11px; }
 .example-tabs { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
