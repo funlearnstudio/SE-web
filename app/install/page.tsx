@@ -10,7 +10,7 @@ export default function InstallPage() {
   return (
     <div className="container" style={{ paddingBottom: 72 }}>
       <PageIntro
-        eyebrow="INSTALL SE 0.7.0"
+        eyebrow="INSTALL SE 0.7.5"
         title={zh ? '安裝與核心工作流程' : 'Install and start building'}
         description={zh ? '預編譯版本可直接使用 REPL、run、check、check-all、test 與 web build。Native `se build` 另外需要 C++20 compiler。' : 'The prebuilt release supports the REPL, run, check, check-all, test, and web build. Native `se build` additionally requires a C++20 compiler.'}
       />
