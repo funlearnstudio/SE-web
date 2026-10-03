@@ -1006,6 +1006,50 @@ function isWrappedInParens(expr: string) {
   return depth === 0;
 }
 
+function findTopLevelBinary(expr: string, operators: string[]) {
+  let quote = ''; let depth = 0;
+  for (let i = expr.length - 1; i >= 0; i -= 1) {
+    const ch = expr[i];
+    if (quote) { if (ch === quote && expr[i - 1] !== '\\') quote = ''; continue; }
+    if (ch === '"' || ch === "'") { quote = ch; continue; }
+    if (ch === ']' || ch === ')') { depth += 1; continue; }
+    if (ch === '[' || ch === '(') { depth -= 1; continue; }
+    if (depth !== 0) continue;
+    for (const op of operators) {
+      const start = i - op.length + 1;
+      if (start < 0 || expr.slice(start, i + 1) !== op) continue;
+      if ((op === '+' || op === '-') && (start === 0 || /[+\-*/%<>=]/.test(expr[start - 1]))) continue;
+      return { index: start, op };
+    }
+  }
+  return null;
+}
+
+function evaluateSeBinary(expr: string, env: Env, context: ExecContext): { matched: boolean; value?: unknown } {
+  for (const operators of [['or'], ['and'], ['==', '!='], ['<=', '>=', '<', '>'], ['+', '-'], ['*', '/', '%']]) {
+    const found = findTopLevelBinary(expr, operators);
+    if (!found) continue;
+    const left = evaluateExpression(expr.slice(0, found.index), env, context);
+    const right = evaluateExpression(expr.slice(found.index + found.op.length), env, context);
+    switch (found.op) {
+      case '+': return { matched: true, value: typeof left === 'string' || typeof right === 'string' ? format(left) + format(right) : Number(left) + Number(right) };
+      case '-': return { matched: true, value: Number(left) - Number(right) };
+      case '*': return { matched: true, value: Number(left) * Number(right) };
+      case '/': return { matched: true, value: Number(left) / Number(right) };
+      case '%': return { matched: true, value: Number(left) % Number(right) };
+      case '==': return { matched: true, value: left === right };
+      case '!=': return { matched: true, value: left !== right };
+      case '<': return { matched: true, value: (left as number) < (right as number) };
+      case '<=': return { matched: true, value: (left as number) <= (right as number) };
+      case '>': return { matched: true, value: (left as number) > (right as number) };
+      case '>=': return { matched: true, value: (left as number) >= (right as number) };
+      case 'and': return { matched: true, value: Boolean(left) && Boolean(right) };
+      case 'or': return { matched: true, value: Boolean(left) || Boolean(right) };
+    }
+  }
+  return { matched: false };
+}
+
 function evaluateExpression(expr: string, env: Env, context: ExecContext): unknown {
   expr = expr.trim();
   if (!expr) return null;
@@ -1018,6 +1062,9 @@ function evaluateExpression(expr: string, env: Env, context: ExecContext): unkno
   if (expr === 'true') return true;
   if (expr === 'false') return false;
   if (expr === 'none' || expr === 'None') return null;
+
+  const seBinary = evaluateSeBinary(expr, env, context);
+  if (seBinary.matched) return seBinary.value;
 
   const rangeAt = getTopLevelRange(expr);
   if (rangeAt >= 0) return range(Number(evaluateExpression(expr.slice(0, rangeAt), env, context)), Number(evaluateExpression(expr.slice(rangeAt + 2), env, context)));

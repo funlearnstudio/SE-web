@@ -72,6 +72,10 @@ const examples = [
     code: 'make add a b\n    give a + b\n\nanswer = add 20 22\nsay answer'
   },
   {
+    name: 'SE 0.7.5',
+    code: 'n = 5\nsay "hello" + n\n\nmake fib a\n    if a <= 1\n        give a\n    give fib a-1 + fib a-2\n\nsay fib n'
+  },
+  {
     name: 'Statistics',
     code: 'use statistics\n\nnums = [10, 20, 30, 40]\nsay statistics.mean nums\nsay statistics.median nums'
   },
