@@ -61,7 +61,7 @@ const examples = [
   },
   {
     name: 'Multi-input ask',
-    code: 'ask a:Int b:Int\\nsay a + b\\n\\nask name:Text age:Int height:Num\\nsay name\\nsay age\\nsay height'
+    code: 'ask a:Int b:Int\nsay a + b\n\nask name:Text age:Int height:Num\nsay name\nsay age\nsay height'
   },
   {
     name: 'Conditions',
