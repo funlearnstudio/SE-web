@@ -11,6 +11,7 @@ A multi-page Next.js documentation website for the SE programming language.
 - A dedicated module page with API signatures and a quick-start example for every module, including collections helpers, numeric and data tools, network services, and focused game modules.
 - SE Web 0.8 and Browser API guide.
 - Browser-only SE core playground simulator.
+- Multi-variable `ask a:Int b:Int` and `ask name:Text age:Int height:Num` with one space-separated browser input line, synced with SE main.
 - Installation and CLI workflow pages.
 - Responsive layout suitable for desktop and mobile.
 - Vercel-ready Next.js App Router project.
