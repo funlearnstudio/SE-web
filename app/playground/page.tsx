@@ -60,6 +60,10 @@ const examples = [
     code: 'name = "SE"\nsay "Hello " + name'
   },
   {
+    name: 'Multi-input ask',
+    code: 'ask a:Int b:Int\\nsay a + b\\n\\nask name:Text age:Int height:Num\\nsay name\\nsay age\\nsay height'
+  },
+  {
     name: 'Conditions',
     code: 'score = 85\n\nif score >= 90\n    say "A"\nelse if score >= 80\n    say "B"\nelse\n    say "C"'
   },
@@ -168,8 +172,8 @@ export default function PlaygroundPage() {
           <pre className="output-console">{output}</pre>
           <div className="playground-note">
             {zh
-              ? '模擬器支援主要核心語法（包含函式、型別、match、try）並提供完整模組目錄；檔案 API 使用每次執行都會清空的虛擬檔案系統。需要外部程序、原生 socket、資料庫驅動或伺服器憑證的 API 受瀏覽器安全規則限制，尚未接入的呼叫會列出原因。相機、音訊與網路功能仍需瀏覽器權限、HTTPS 與服務端 CORS 配合。'
-              : 'The simulator supports core syntax, including functions, types, match, and try, with the full module catalog. File APIs use an in-memory filesystem that resets for each run. APIs requiring child processes, native sockets, database drivers, or server credentials are restricted by browser security; unsupported calls explain why. Camera, audio, and network features still require browser permission, HTTPS, and server CORS support.'}
+              ? '模擬器支援主要核心語法（包含函式、型別、match、try、多變數 ask）；多變數 ask 會透過瀏覽器提示框讀取一行以空格分隔的輸入。檔案 API 使用每次執行都會清空的虛擬檔案系統。需要外部程序、原生 socket、資料庫驅動或伺服器憑證的 API 受瀏覽器安全規則限制，尚未接入的呼叫會列出原因。相機、音訊與網路功能仍需瀏覽器權限、HTTPS 與服務端 CORS 配合。'
+              : 'The simulator supports functions, types, match, try and multi-variable ask. A browser prompt collects one space-separated line. File APIs use an in-memory filesystem that resets for each run. APIs requiring child processes, native sockets, database drivers, or server credentials are restricted by browser security; unsupported calls explain why. Camera, audio, and network features still require browser permission, HTTPS, and server CORS support.'}
           </div>
         </section>
       </div>
