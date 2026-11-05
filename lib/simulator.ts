@@ -1170,6 +1170,42 @@ function executeStatement(text: string, line: number, env: Env, context: ExecCon
   context.steps += 1;
   if (context.steps > MAX_STEPS) throw new Error('Execution stopped: simulator step limit reached.');
   if (!text || text.startsWith('#') || text.startsWith('use ')) return { returned: false };
+  // SE 0.7.6: ask reads multiple space-separated values from one line.
+  // Keep the original expression form (name = ask "question") unchanged.
+  if (/^ask\s+/.test(text)) {
+    const parts = text.slice(4).trim().split(/\s+/);
+    if (parts.length >= 2 && /^[A-Za-z_]\w*(?::[A-Za-z_]\w*)?$/.test(parts[0])) {
+      const fields = parts.map((part) => {
+        const match = part.match(/^([A-Za-z_]\w*)(?::(Text|Int|Num))?$/);
+        if (!match) throw new Error(`Line ${line}: invalid multi-value ask field '${part}'. Use name:Text, name:Int or name:Num.`);
+        return { name: match[1], type: match[2] ?? 'Text' };
+      });
+      // A browser prompt accepts one full line, matching the CLI's getline.
+      const answer = typeof window !== 'undefined'
+        ? window.prompt(`Input ${fields.length} space-separated values:`)
+        : null;
+      if (answer === null) throw new Error(`Line ${line}: ask: unable to read input.`);
+      const tokens = answer.trim() ? answer.trim().split(/\s+/) : [];
+      if (tokens.length !== fields.length) {
+        throw new Error(`Line ${line}: ask: expected ${fields.length} values but received ${tokens.length}.`);
+      }
+      const values = fields.map((field, index) => {
+        const raw = tokens[index];
+        if (field.type === 'Text') return raw;
+        const valid = field.type === 'Int'
+          ? /^[+-]?\d+$/.test(raw)
+          : /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(raw);
+        const value = Number(raw);
+        if (!valid || !Number.isFinite(value) || (field.type === 'Int' && !Number.isSafeInteger(value))) {
+          throw new Error(`Line ${line}: ask: '${field.name}' needs ${field.type}, got '${raw}'.`);
+        }
+        return value;
+      });
+      // Commit only after every field has been validated.
+      fields.forEach((field, index) => { env[field.name] = values[index]; });
+      return { returned: false };
+    }
+  }
   if (text.startsWith('say ')) {
     context.output.push(format(evaluateExpression(text.slice(4), env, context)));
     return { returned: false };

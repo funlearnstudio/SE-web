@@ -35,12 +35,13 @@ export const syntaxLessons: Lesson[] = [
   {
     slug: 'input-output', order: 3,
     title: { en: 'Input & output', zh: '輸入與輸出' },
-    summary: { en: 'Use say for output and ask for simple interactive text input.', zh: '使用 say 輸出，使用 ask 取得互動式文字輸入。' },
+    summary: { en: 'Use say for output; ask can read one text value or several typed values separated by spaces.', zh: '使用 say 輸出，ask 可讀取單個文字或一次讀取多個以空格分隔的指定型別變數。' },
     details: [
-      { en: '`ask` returns Text.', zh: '`ask` 會回傳 Text。' },
+      { en: 'name = ask "Question?" reads a full Text line; ask a:Int b:Num name:Text reads separate fields from one line.', zh: 'name = ask "問題" 讀取整行 Text；ask a:Int b:Num name:Text 將同一行依空白拆分。' },
+      { en: 'Multi-value ask supports Int, Num and Text (default). At least two fields are required; invalid numbers or field counts are errors.', zh: '多變數 ask 支援 Int、Num 與 Text（預設），至少兩個欄位；數字或欄位數量錯誤會報錯。' },
       { en: 'Text can be combined with +.', zh: 'Text 可使用 + 串接。' }
     ],
-    code: 'name = ask "Your name?"\nsay "Hello " + name'
+    code: 'name = ask "Your name?"\nsay "Hello " + name\n\n# One line: 10 20\nask a:Int b:Int\nsay a + b\n\n# One line: Steve 16 170.5\nask user:Text age:Int height:Num\nsay user\nsay age\nsay height'
   },
   {
     slug: 'literals', order: 4,
