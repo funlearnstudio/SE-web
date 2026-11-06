@@ -14,9 +14,9 @@ export default function HomePage() {
         <div className="hero-copy">
           <div className="hero-logo-row">
             <Image src="/se-logo.png" alt="SE language logo" width={72} height={72} priority />
-            <span>SE PROGRAMMING LANGUAGE · 0.7.0</span>
+            <span>SE PROGRAMMING LANGUAGE · 0.8.0</span>
           </div>
-          <h1>{zh ? '簡單，從第一行到更大的程式。' : 'Simple from the first line to larger programs.'}</h1>
+          <h1>{zh ? 'SE 0.8.0：簡單，從第一行到更大的程式。' : 'SE 0.8.0: simple from the first line onward.'}</h1>
           <p>
             {zh
               ? 'SE 是一門低標點、重視安全性的程式語言。使用同一套清楚的語法進行直譯執行、Native build、Web 開發與多種生態系整合。'
@@ -25,7 +25,7 @@ export default function HomePage() {
           <div className="hero-actions">
             <Link className="button-primary" href="/learn">{zh ? '開始學 SE' : 'Start learning'}</Link>
             <Link className="button-secondary" href="/playground">{zh ? '開啟線上模擬器' : 'Open playground'}</Link>
-            <Link className="button-quiet" href="/modules">117 {zh ? '個 Module →' : 'modules →'}</Link>
+            <Link className="button-quiet" href="/learn/contest-stdin-0-8">{zh ? '0.8.0 新語法教學' : 'What\'s new in 0.8.0'}</Link>
           </div>
         </div>
         <div className="hero-panel" aria-label="SE code example">
@@ -45,7 +45,7 @@ export default function HomePage() {
         <div className="container stat-strip">
           <div className="stat"><strong>117</strong><span>{zh ? '可直接 use 的 built-in module' : 'directly importable built-in modules'}</span></div>
           <div className="stat"><strong>.se</strong><span>{zh ? '清楚、低標點的原始碼' : 'clean, low-punctuation source'}</span></div>
-          <div className="stat"><strong>3</strong><span>{zh ? '主要工作流：check / run / build' : 'core workflows: check / run / build'}</span></div>
+          <div className="stat"><strong>0.8</strong><span>{zh ? 'read、型別陣列、除錯與格式化' : 'stdin, arrays, debug and format'}</span></div>
           <div className="stat"><strong>Web</strong><span>{zh ? '輸出 HTML / CSS / JS / TS' : 'HTML / CSS / JS / TS output'}</span></div>
         </div>
       </section>

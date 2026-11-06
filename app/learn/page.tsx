@@ -13,7 +13,7 @@ export default function LearnPage() {
       <PageIntro
         eyebrow={zh ? 'SE LANGUAGE GUIDE' : 'SE LANGUAGE GUIDE'}
         title={zh ? '完整語法教學' : 'Learn the SE language'}
-        description={zh ? '從第一行 say 到型別、錯誤處理、Async、Native 與 SE Web。每一章都使用目前文件中的 SE 語法。' : 'From your first say statement to types, error handling, async, native interoperability and SE Web. Each lesson follows the current SE documentation.'}
+        description={zh ? '從 say、read、陣列到 SE Web、Native 與開發工具，教材已同步 SE 0.8.0。' : 'From say and read to arrays, SE Web, native builds and developer tools, aligned with SE 0.8.0.'}
       />
       <div className="docs-layout">
         <aside className="docs-sidebar">
@@ -23,8 +23,8 @@ export default function LearnPage() {
         <section className="docs-main">
           <div className="notice">
             {zh
-              ? 'Core language 以 SE 0.7.0 正式版文件為主；SE Web / Browser API 另以 0.8 版本文件標示，避免把版本化 Web 功能和 0.7 runtime 混在一起。'
-              : 'Core language lessons follow the SE 0.7.0 release documentation. SE Web and the Browser API are labeled separately as 0.8 documentation so versioned Web work is not confused with the 0.7 runtime.'}
+              ? '核心語法已同步 SE 0.8.0 正式版，新增 read、型別／多維陣列及開發工具教學。SE Web 0.8 是另一組 Web 語法文件；網頁模擬器不等於原生 SE 執行期。'
+              : 'Core language lessons now follow the SE 0.8.0 release. SE Web 0.8 refers to the separate Web language documentation, not a guarantee that all native SE APIs run in the browser simulator.'}
           </div>
           <div className="lesson-list">
             {syntaxLessons.map((lesson) => (

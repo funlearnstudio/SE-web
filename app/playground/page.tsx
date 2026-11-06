@@ -6,7 +6,7 @@ import { useLanguage } from '@/components/LanguageProvider';
 import { runSeSimulation } from '@/lib/simulator';
 import { modules } from '@/lib/modules';
 
-const SE_KEYWORDS = new Set('if else match case try for in while repeat give fail wait await and or not use make type html css js style when page native'.split(' '));
+const SE_KEYWORDS = new Set('if else match case try for in while repeat give fail wait await and or not use make type html css js style when page native read'.split(' '));
 const SE_TYPES = new Set('Int Num Text Bool Bytes List Map Set Function Unknown Option Result Task'.split(' '));
 const SE_BUILTINS = new Set('say ask set bytes int integer num double float text string bool boolean char'.split(' '));
 const SE_CONSTANTS = new Set(['true', 'false', 'none']);
@@ -64,6 +64,15 @@ const examples = [
     code: 'ask a:Int b:Int\nsay a + b\n\nask name:Text age:Int height:Num\nsay name\nsay age\nsay height'
   },
   {
+    name: 'Contest read · SE 0.8.0',
+    code: 'read n:Int\nread a[n]:Int\ntotal = 0\nfor x in a\n    total += x\nsay total',
+    stdin: '5\n10 20 30 40 50'
+  },
+  {
+    name: 'Multidimensional Lists',
+    code: 'grid[2][3] = []\ngrid[1][2] = 42\nsay grid[1][2]\nsay grid[0].len'
+  },
+  {
     name: 'Conditions',
     code: 'score = 85\n\nif score >= 90\n    say "A"\nelse if score >= 80\n    say "B"\nelse\n    say "C"'
   },
@@ -106,6 +115,7 @@ export default function PlaygroundPage() {
   const zh = language === 'zh';
   const [active, setActive] = useState(0);
   const [code, setCode] = useState(examples[0].code);
+  const [stdin, setStdin] = useState('');
   const [moduleSearch, setModuleSearch] = useState('');
   const [output, setOutput] = useState('Click Run to execute the browser simulation.');
   const highlightRef = useRef<HTMLPreElement>(null);
@@ -113,7 +123,7 @@ export default function PlaygroundPage() {
   const filteredModules = useMemo(() => modules.filter((item) => item.name.includes(moduleSearch.toLowerCase()) || item.description.en.toLowerCase().includes(moduleSearch.toLowerCase())), [moduleSearch]);
 
   const run = () => {
-    const result = runSeSimulation(code);
+    const result = runSeSimulation(code, stdin);
     if (result.error) setOutput(`Error: ${result.error}`);
     else setOutput(result.output.length ? result.output.join('\n') : '(program finished with no output)');
   };
@@ -121,6 +131,7 @@ export default function PlaygroundPage() {
   const load = (index: number) => {
     setActive(index);
     setCode(examples[index].code);
+    setStdin('stdin' in examples[index] ? String(examples[index].stdin) : '');
     setOutput(zh ? '按 Run 執行。' : 'Click Run to execute.');
   };
 
@@ -168,12 +179,14 @@ export default function PlaygroundPage() {
           </div>
         </section>
         <section className="output-pane">
+          <div className="playground-toolbar"><strong>{zh ? '標準輸入（stdin）' : 'Standard input (stdin)'}</strong><span className="badge">SE 0.8.0</span></div>
+          <textarea className="search-input" style={{ display: 'block', minHeight: 106, width: '100%', resize: 'vertical', boxSizing: 'border-box', marginBottom: 16 }} aria-label="Standard input for SE read statements" value={stdin} onChange={(event) => setStdin(event.target.value)} placeholder={zh ? '給 read 使用的輸入，例如：\n5\n10 20 30 40 50' : 'Input for read, e.g.\n5\n10 20 30 40 50'} />
           <div className="playground-toolbar"><strong>{zh ? '輸出' : 'Output'}</strong><span className="badge">browser simulator</span></div>
           <pre className="output-console">{output}</pre>
           <div className="playground-note">
             {zh
-              ? '模擬器支援主要核心語法（包含函式、型別、match、try、多變數 ask）；多變數 ask 會透過瀏覽器提示框讀取一行以空格分隔的輸入。檔案 API 使用每次執行都會清空的虛擬檔案系統。需要外部程序、原生 socket、資料庫驅動或伺服器憑證的 API 受瀏覽器安全規則限制，尚未接入的呼叫會列出原因。相機、音訊與網路功能仍需瀏覽器權限、HTTPS 與服務端 CORS 配合。'
-              : 'The simulator supports functions, types, match, try and multi-variable ask. A browser prompt collects one space-separated line. File APIs use an in-memory filesystem that resets for each run. APIs requiring child processes, native sockets, database drivers, or server credentials are restricted by browser security; unsupported calls explain why. Camera, audio, and network features still require browser permission, HTTPS, and server CORS support.'}
+              ? '模擬器現在支援 SE 0.8.0 的 read、指定長度與多維陣列。read 從上方 stdin 文字框跨空白與換行讀取，沒有互動提示；ask 仍使用瀏覽器提示框。此處是教學用瀏覽器模擬器，不是完整 C++ 編譯器；不支援原生程序、真實檔案系統或未接入的原生 API。請用正式 SE CLI 驗證競賽程式與 Native build。'
+              : 'The learning simulator now supports SE 0.8.0 read and typed or multidimensional Lists. read consumes whitespace-separated tokens from the stdin field without prompting, while ask still uses browser prompts. This is not the full C++ compiler or native runtime. Use the official SE CLI to validate contest submissions, real filesystem access, and native builds.'}
           </div>
         </section>
       </div>

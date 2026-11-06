@@ -30,6 +30,8 @@ type ExecContext = {
   virtualDirectories: Set<string>;
   virtualDatabases: Map<string, Map<string, unknown>>;
   virtualRoutes: { method: string; path: string; handler: unknown }[];
+  stdinTokens: string[];
+  stdinCursor: number;
 };
 
 const MAX_STEPS = 12000;
@@ -1170,6 +1172,40 @@ function executeStatement(text: string, line: number, env: Env, context: ExecCon
   context.steps += 1;
   if (context.steps > MAX_STEPS) throw new Error('Execution stopped: simulator step limit reached.');
   if (!text || text.startsWith('#') || text.startsWith('use ')) return { returned: false };
+  // SE 0.8.0: typed, prompt-free standard input, separated by arbitrary whitespace.
+  const read = text.match(/^read\s+([A-Za-z_]\w*)(?:\[([^\]\r\n]+)\])?\s*:\s*(Int|Num|Text|Bool)$/);
+  if (read) {
+    const [, name, lengthExpr, kind] = read;
+    const count = lengthExpr === undefined ? 1 : Number(evaluateExpression(lengthExpr, env, context));
+    if (!Number.isSafeInteger(count) || count < 0 || count > 1000000)
+      throw new Error(`Line ${line}: read length must be an Int between 0 and 1000000.`);
+    const values: unknown[] = [];
+    for (let i = 0; i < count; i += 1) {
+      if (context.stdinCursor >= context.stdinTokens.length)
+        throw new Error(`Line ${line}: read: unexpected end of standard input for '${name}'.`);
+      const token = context.stdinTokens[context.stdinCursor++];
+      let value: unknown = token;
+      if (kind === 'Int') {
+        if (!/^[+-]?\d+$/.test(token) || !Number.isSafeInteger(Number(token)))
+          throw new Error(`Line ${line}: read: '${name}' needs Int, got '${token}'.`);
+        value = Number(token);
+      } else if (kind === 'Num') {
+        const number = Number(token);
+        if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(token) || !Number.isFinite(number))
+          throw new Error(`Line ${line}: read: '${name}' needs Num, got '${token}'.`);
+        value = number;
+      } else if (kind === 'Bool') {
+        if (!['true', 'false', '1', '0'].includes(token))
+          throw new Error(`Line ${line}: read: '${name}' needs Bool, got '${token}'.`);
+        value = token === 'true' || token === '1';
+      }
+      values.push(value);
+    }
+    env[name] = lengthExpr === undefined ? values[0] : values;
+    return { returned: false };
+  }
+  if (text.startsWith('read ')) throw new Error(`Line ${line}: read syntax is 'read name:Type' or 'read values[n]:Type'.`);
+
   // SE 0.7.6: ask reads multiple space-separated values from one line.
   // Keep the original expression form (name = ask "question") unchanged.
   if (/^ask\s+/.test(text)) {
@@ -1221,6 +1257,49 @@ function executeStatement(text: string, line: number, env: Env, context: ExecCon
     const value = evaluateExpression(rhs, env, context);
     const current = Number(env[name]); const right = Number(value);
     env[name] = op === '+=' ? (typeof env[name] === 'string' ? String(env[name]) + String(value) : current + right) : op === '-=' ? current - right : op === '*=' ? current * right : op === '/=' ? current / right : current % right;
+    return { returned: false };
+  }
+
+  // A declared size is not a write to a yet-to-exist element.
+  const sized = text.match(/^([A-Za-z_]\w*)((?:\s*\[[^\]\r\n]+\])+)(?:\s*:\s*(Int|Num|Text|Bool))?\s*=\s*\[\s*\]$/);
+  if (sized) {
+    const [, name, dimensionsText, type = 'Int'] = sized;
+    const dimensions = [...dimensionsText.matchAll(/\[([^\]]+)\]/g)].map((part) => {
+      const n = evaluateExpression(part[1], env, context);
+      if (typeof n !== 'number' || !Number.isSafeInteger(n) || n < 0 || n > 1000000)
+        throw new Error(`Line ${line}: sized List dimensions must be Int between 0 and 1000000.`);
+      return n;
+    });
+    let slots = 0, layer = 1;
+    for (const n of dimensions) {
+      if (layer > 0 && n > Math.floor(1000000 / layer))
+        throw new Error(`Line ${line}: sized List exceeds 1000000 slots.`);
+      layer *= n;
+      slots += layer;
+      if (slots > 1000000) throw new Error(`Line ${line}: sized List exceeds 1000000 slots.`);
+    }
+    const initial = type === 'Text' ? '' : type === 'Bool' ? false : 0;
+    const allocate = (level: number): unknown =>
+      level === dimensions.length ? initial :
+      Array.from({ length: dimensions[level] }, () => allocate(level + 1));
+    env[name] = allocate(0);
+    return { returned: false };
+  }
+
+  // Ordinary indexing remains bounds checked; indexing never grows a List.
+  const indexed = text.match(/^([A-Za-z_]\w*)((?:\s*\[[^\]\r\n]+\])+)\s*=\s*(.+)$/);
+  if (indexed) {
+    const [, name, dimensionsText, expression] = indexed;
+    let parent: unknown = env[name];
+    const indices = [...dimensionsText.matchAll(/\[([^\]]+)\]/g)];
+    for (let i = 0; i < indices.length; i += 1) {
+      const index = evaluateExpression(indices[i][1], env, context);
+      if (!Array.isArray(parent) || typeof index !== 'number' || !Number.isSafeInteger(index) ||
+          index < 0 || index >= parent.length)
+        throw new Error(`Line ${line}: List index out of bounds.`);
+      if (i === indices.length - 1) parent[index] = evaluateExpression(expression, env, context);
+      else parent = parent[index];
+    }
     return { returned: false };
   }
 
@@ -1346,13 +1425,13 @@ function executeNodes(nodes: Node[], env: Env, context: ExecContext): { returned
   return { returned: false };
 }
 
-export function runSeSimulation(source: string): SimulationResult {
+export function runSeSimulation(source: string, standardInput = ''): SimulationResult {
   try {
     const lines = cleanSource(source);
     const first = nextContent(lines, 0);
     if (first >= lines.length) return { output: [] };
     const parsed = parseBlock(lines, first, lines[first].indent);
-    const context: ExecContext = { output: [], functions: new Map(), steps: 0, virtualFiles: new Map(), virtualDirectories: new Set(), virtualDatabases: new Map(), virtualRoutes: [] };
+    const context: ExecContext = { output: [], functions: new Map(), steps: 0, virtualFiles: new Map(), virtualDirectories: new Set(), virtualDatabases: new Map(), virtualRoutes: [], stdinTokens: standardInput.trim() ? standardInput.trim().split(/\s+/) : [], stdinCursor: 0 };
     const env: Env = {};
     executeNodes(parsed.nodes, env, context);
     return { output: context.output };
