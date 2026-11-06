@@ -248,6 +248,65 @@ export const syntaxLessons: Lesson[] = [
       { en: '`se build` currently emits C++20 and therefore requires a C++20 compiler.', zh: '`se build` 目前會產生 C++20，因此需要 C++20 compiler。' }
     ],
     code: 'se check app.se\nse check-all .\nse run app.se\nse test .\nse build app.se\nse new app myapp\nse new web mysite\nse web build app.se dist'
+  },
+  {
+    slug: 'contest-stdin-0-8', order: 25,
+    title: { en: 'Contest input: read (0.8.0)', zh: '競賽標準輸入：read（0.8.0）' },
+    summary: { en: 'Read whitespace-separated standard input without prompts, suitable for online judges.', zh: '不顯示提示文字，讀取跨空白或換行的標準輸入，適合 APCS 和線上評測。' },
+    details: [
+      { en: 'read n:Int reads one integer; read a[n]:Int reads n values across any spaces or line breaks.', zh: 'read n:Int 讀一個整數；read a[n]:Int 讀取 n 個數值，可跨越多行。' },
+      { en: 'Types Int, Num, Text and Bool are supported. Missing or invalid tokens are errors.', zh: '支援 Int、Num、Text、Bool；輸入不足或格式錯誤會報錯。' },
+      { en: 'On the Playground, enter the example input in the stdin box. The actual SE CLI reads process stdin.', zh: '線上模擬器要在 stdin 欄輸入測資；正式版 SE CLI 從系統標準輸入讀取。' }
+    ],
+    code: 'read n:Int\nread numbers[n]:Int\nsum = 0\nfor x in numbers\n    sum += x\nsay sum',
+    notes: [
+      { en: 'Example stdin: 5 followed by 10 20 30 40 50; output is 150, without prompts.', zh: '測資輸入：第一行 5，第二行 10 20 30 40 50；只輸出 150，不會有提示文字。' },
+      { en: 'Use ask for interactive prompts; read is designed for raw whitespace-delimited stdin.', zh: '與人互動請使用 ask；read 是純標準輸入模式。' }
+    ]
+  },
+  {
+    slug: 'typed-multidimensional-lists-0-8', order: 26,
+    title: { en: 'Typed and multidimensional Lists', zh: '型別陣列與多維陣列' },
+    summary: { en: 'Reserve a fixed initial number of zero-initialized slots using a[n] = [] and typed variants.', zh: '使用 a[n] = [] 或帶型別的寫法，先建立指定數量的元素。' },
+    details: [
+      { en: 'a[5] = [] creates a five-element List[Int] initially containing zeros.', zh: 'a[5] = [] 建立五個整數元素，初始值皆為 0。' },
+      { en: 'Supported scalar element types: Int (0), Num (0.0), Text (empty), Bool (false).', zh: '支援 Int（0）、Num（0.0）、Text（空字串）、Bool（false）作為元素型別。' },
+      { en: 'grid[rows][cols] = [] builds independent rows and uses zero-based indexing. Bounds and allocation limits are checked.', zh: 'grid[rows][cols] = [] 建立各列獨立的二維陣列，索引從 0 開始，有越界與配置量限制。' }
+    ],
+    code: 'a[5] = []\na[0] = 10\nnames[2]:Text = []\nnames[1] = "SE"\nflags[2]:Bool = []\ngrid[3][4]:Int = []\ngrid[1][2] = 99\nsay grid[1][2]'
+  },
+  {
+    slug: 'cli-format-debug-0-8', order: 27,
+    title: { en: 'CLI formatter and debugger', zh: '程式碼格式化與除錯' },
+    summary: { en: 'Use se fmt to normalize formatting, se debug for stepwise execution, and se trace for logs.', zh: '透過 se fmt、se debug、se trace 來整理、單步執行與追蹤程式。' },
+    details: [
+      { en: 'se fmt checks valid source then normalizes whitespace and line endings; --check makes no changes.', zh: 'se fmt 會先解析程式，再整理縮排空白與行尾；--check 不會修改檔案。' },
+      { en: 'At a breakpoint, use s (step), c (continue), locals, p NAME, bt (stack), q (quit).', zh: '中斷後可使用 s（單步）、c（繼續）、locals（區域變數）、p 變數名、bt（呼叫堆疊）、q（離開）。' },
+      { en: 'These tools are part of the installed SE CLI, not browser Playground debug controls.', zh: '這些功能需要安裝 SE CLI，網頁模擬器不會提供原生除錯器。' }
+    ],
+    code: 'se fmt main.se\nse fmt --check main.se\nse trace main.se\nse debug --break 5 main.se'
+  },
+  {
+    slug: 'cli-packages-0-8', order: 28,
+    title: { en: 'Local package manager', zh: '本機套件管理' },
+    summary: { en: 'Organize SE files into local packages with se pkg and a simple lockfile.', zh: '使用 se pkg 安裝本機 SE 模組，並用鎖定檔檢查一致性。' },
+    details: [
+      { en: 'se pkg init creates a local project setup; add expects a local .se file.', zh: 'se pkg init 建立本機專案結構；add 接受本地 .se 檔案。' },
+      { en: 'Verify compares installed local modules with the lockfile. This is not a signed package registry.', zh: 'verify 檢查本機模組與鎖定檔是否相符；它不是含密碼學簽章的遠端套件倉庫。' },
+      { en: 'The module can be imported with the standard use name once installed.', zh: '安裝完成後，程式可透過 use 模組名稱匯入。' }
+    ],
+    code: 'se pkg init\nse pkg add helper.se\nse pkg list\nse pkg verify\nse pkg remove helper'
+  },
+  {
+    slug: 'cli-lsp-native-0-8', order: 29,
+    title: { en: 'Language server and Native builds', zh: '語言伺服器與 Native 編譯' },
+    summary: { en: 'Understand the initial se lsp server and the limits of current native compilation.', zh: '認識初版 se lsp，以及目前 Native 編譯的實際支援範圍。' },
+    details: [
+      { en: 'se lsp starts a Node.js stdio language-server foundation, offering completion, references, rename and diagnostics.', zh: 'se lsp 使用 Node.js 的標準輸入輸出通訊，提供補全、參照、重新命名和診斷的基礎能力。' },
+      { en: 'LSP symbol operations are not yet fully scope-aware. Complex code still uses the interpreter-backed C++20 native runtime.', zh: 'LSP 尚未具備完整的作用域語意分析；複雜程式仍使用以直譯器為基礎的 C++20 Native 執行期。' },
+      { en: 'Both se build and native compilation require an installed C++20 toolchain.', zh: 'se build 與 Native 編譯仍需安裝 C++20 編譯工具鏈。' }
+    ],
+    code: 'se --version\nse lsp\nse build main.se'
   }
 ];
 
