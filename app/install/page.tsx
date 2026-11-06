@@ -10,7 +10,7 @@ export default function InstallPage() {
   return (
     <div className="container" style={{ paddingBottom: 72 }}>
       <PageIntro
-        eyebrow="INSTALL SE 0.7.0"
+        eyebrow="INSTALL SE 0.8.0"
         title={zh ? '安裝與核心工作流程' : 'Install and start building'}
         description={zh ? '預編譯版本可直接使用 REPL、run、check、check-all、test 與 web build。Native `se build` 另外需要 C++20 compiler。' : 'The prebuilt release supports the REPL, run, check, check-all, test, and web build. Native `se build` additionally requires a C++20 compiler.'}
       />
@@ -29,7 +29,12 @@ export default function InstallPage() {
 
       <section className="section-tight">
         <div className="section-heading"><div><h2>{zh ? '每天會用到的指令' : 'The core workflow'}</h2><p>{zh ? '檢查、執行、測試、Native build 和 Web build 使用同一個 `se` CLI。' : 'Check, run, test, build native programs, and compile Web projects through one `se` CLI.'}</p></div></div>
-        <CodeBlock title="Terminal" code={'se check app.se          # static checking\nse check-all .            # check a project\nse run app.se            # interpreter\nse test .                # tests\nse build app.se          # C++20 native backend\nse new app myapp         # new app\nse new web mysite        # new Web project\nse web build app.se dist # Web compiler'} />
+        <CodeBlock title="Terminal" code={'se --version                 # 0.8.0\nse check app.se              # static checking\nse check-all .                # project checks\nse run app.se                # interpreter\nse test .                    # tests\nse fmt app.se                # format\nse fmt --check app.se        # format CI check\nse trace app.se              # executed statements\nse debug app.se              # step debugger\nse pkg init                  # local package setup\nse lsp                       # Node.js language server\nse build app.se              # C++20 native build\nse new web mysite            # Web project\nse web build app.se dist     # Web compiler'} />
+      </section>
+
+      <section className="section-tight">
+        <div className="section-heading"><div><h2>{zh ? 'VS Code 0.8.0 擴充套件' : 'VS Code 0.8.0 extension'}</h2><p>{zh ? '從 GitHub Release 下載 se-language-0.8.0.vsix，使用 VS Code 的 Extensions → … → Install from VSIX 安裝；擴充套件不會自動更新 CLI。' : 'Download se-language-0.8.0.vsix from the GitHub Release, then select Extensions → … → Install from VSIX. Installing the extension does not update your CLI.'}</p></div></div>
+        <p><a href="https://github.com/funlearnstudio/SE/releases/tag/v0.8.0" target="_blank" rel="noreferrer">{zh ? 'SE 0.8.0 正式下載頁' : 'Download SE 0.8.0 release'}</a></p>
       </section>
 
       <section className="section-tight">
