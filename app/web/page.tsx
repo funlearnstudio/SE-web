@@ -10,13 +10,18 @@ export default function WebPage() {
   return (
     <div className="container" style={{ paddingBottom: 72 }}>
       <PageIntro
-        eyebrow="SE WEB · 0.8 DOCS"
+        eyebrow="SE WEB 0.8 · SE CLI 0.8.0"
         title={zh ? '用 SE 描述 Web component' : 'Build Web components with SE'}
         description={zh ? 'SE Web 保留熟悉的 HTML、CSS 與 browser 概念，同時沿用 make、縮排與 SE control flow。' : 'SE Web keeps HTML, CSS, and browser concepts recognizable while reusing make, indentation, and familiar SE control flow.'}
       />
       <div className="notice">
-        {zh ? 'SE Web 採獨立的 0.8 版本文件。產生的 app.ts 是 TypeScript-compatible companion output；進階 browser 功能仍可能需要 native escape hatch。' : 'SE Web is documented separately as 0.8. Generated app.ts is a TypeScript-compatible companion output, and advanced browser features may still use the native escape hatch.'}
+        {zh ? 'SE Web 0.8 是 Web 語言／Browser API 文件版本；正式 SE CLI 版本是 0.8.0，兩者不是不同的可安裝編譯器。Web build 產生 HTML、CSS、JavaScript 及 TypeScript-compatible app.ts；進階瀏覽器操作仍可能需要 native escape hatch。' : 'SE Web 0.8 identifies the Web language and Browser API documentation. The released SE CLI is 0.8.0. Web build emits HTML, CSS, JavaScript and TypeScript-compatible app.ts; advanced browser features may still need a native escape hatch.'}
       </div>
+      <section className="section-tight">
+        <div className="section-heading"><div><h2>{zh ? "SE 0.8.0 的 Web 開發流程" : "SE 0.8.0 Web workflow"}</h2><p>{zh ? "使用正式 SE CLI 建立、檢查並編譯 Web 專案。網站 Playground 只是教學用模擬器，不會在瀏覽器執行原生編譯器。" : "Use the official CLI to create, check and compile Web projects. The Playground is a learning simulator, not a native SE compiler running in your browser."}</p></div></div>
+        <CodeBlock title="Terminal" code={"se --version                 # SE 0.8.0\nse new web mysite\nse check app.se\nse fmt app.se\nse web build app.se dist"} />
+        <p><a href="https://github.com/funlearnstudio/SE/releases/tag/v0.8.0" target="_blank" rel="noreferrer">{zh ? "下載 SE 0.8.0 正式編譯器" : "Download the SE 0.8.0 compiler"}</a> · <a href="https://github.com/funlearnstudio/SE/blob/main/docs/web-language-0.8-zh-TW.md" target="_blank" rel="noreferrer">{zh ? "Web 語言原始規格" : "Web language source specification"}</a></p>
+      </section>
       <div className="web-guide-grid">
         <section className="guide-card">
           <h2>{zh ? 'Component' : 'Components'}</h2>
