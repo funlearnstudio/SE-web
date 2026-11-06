@@ -23,7 +23,7 @@ export function SiteHeader() {
         <Link href="/" className="brand" aria-label="SE home">
           <Image src="/se-logo.png" alt="SE" width={38} height={38} priority />
           <span>SE</span>
-          <span className="version-chip">0.7</span>
+          <span className="version-chip">0.8.0</span>
         </Link>
         <nav className="main-nav" aria-label="Main navigation">
           {links.map((link) => {
