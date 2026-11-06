@@ -247,7 +247,7 @@ export const syntaxLessons: Lesson[] = [
     details: [
       { en: '`se build` currently emits C++20 and therefore requires a C++20 compiler.', zh: '`se build` 目前會產生 C++20，因此需要 C++20 compiler。' }
     ],
-    code: 'se check app.se\nse check-all .\nse run app.se\nse test .\nse build app.se\nse new app myapp\nse new web mysite\nse web build app.se dist'
+    code: 'se --version\nse check app.se\nse check-all .\nse run app.se\nse test .\nse fmt app.se\nse trace app.se\nse debug app.se\nse build app.se\nse new web mysite\nse web build app.se dist'
   },
   {
     slug: 'contest-stdin-0-8', order: 25,
